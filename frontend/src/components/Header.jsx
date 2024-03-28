@@ -24,9 +24,16 @@ const Header = () => {
           <img src="../../public/images/logo-text.png" width="15%" height="15%" className="d-inline-block" alt="" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        
         <Navbar.Collapse className="justify-content-end">
           {isAuthenticated ? (
-            <Dropdown className='me-5 pe-3'>
+     <Nav>
+           
+            
+            <Nav.Link href="/cabinet" className="mt-2 fw-semibold text-white justify-content-left">
+              Cabinets
+            </Nav.Link>
+             <Dropdown className='me-5 pe-3'>
               <Dropdown.Toggle className='bg-primary' id="dropdown-basic">
                 <i className="bi bi-person-fill"></i> {user && user.nom}
               </Dropdown.Toggle>
@@ -36,6 +43,7 @@ const Header = () => {
                 <Dropdown.Item onClick={logout} className='text-danger'> <i className="bi bi-box-arrow-left text-danger"></i> Déconnecter</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
+           </Nav>
           ) : (
             <Nav>
               <Nav.Link href="/veterinaire" className="mt-2 fw-semibold text-white">
