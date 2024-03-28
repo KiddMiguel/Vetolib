@@ -7,6 +7,8 @@ import ConnexionUser from "./pages/user/connexionUser";
 import { Route, Routes } from "react-router-dom";
 import { useAuth } from "./utils/AuthContext";
 import CabinetDetails from "./components/CabinetDetails";
+import Inscription from "./pages/user/inscription";
+import Profile from "./pages/user/profile";
 import Cabinet from "./pages/cabinet/cabinet";
 import AddCabinet from "./pages/cabinet/createCabinet";
 import EditCabinet from "./pages/cabinet/editCabinet";
@@ -37,6 +39,8 @@ function App() {
             <Route path="/animalist" element={<AnimalList />} />
             <Route path="/connexion" element={<ConnexionUser />} />
             <Route path="/cabinet/:id" element={<CabinetDetails />} />
+            <Route path="/inscription" element={<Inscription />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/cabinet/" element={<Cabinet />} />
             <Route path="/createCabinet" element={<AddCabinet />} /> 
             <Route path="/editCabinet/:id" element={<EditCabinet />} />
