@@ -114,11 +114,11 @@ exports.login = async (req, res) => {
 
         if (user.user_type === "admin") {
             // Tu peux ajouter les données supplémentaires ici
-            return res.json({ token: token, role: user.user_type, user: { nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, image: user.image, phone: user.phone } });
+            return res.json({ token: token, role: user.user_type, user: { user_id :user.user_id,  nom: user.nom, prenom: user.prenom, email: user.email,  address: user.address, user_type : user.user_type, image: user.image, phone: user.phone } });
         }
 
         // Pour un utilisateur non admin, tu renvoies simplement le token
-        return res.json({ token: token, role: user.user_type, user: { nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, image: user.image, phone: user.phone } });
+        return res.json({ token: token, role: user.user_type, user: {user_id : user.user_id, nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, user_type : user.user_type, image: user.image, phone: user.phone } });
 
     } catch (error) {
         console.error(error);
