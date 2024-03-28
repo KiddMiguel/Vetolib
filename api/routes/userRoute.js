@@ -8,7 +8,7 @@ const {validateLoginData} = require('../middlewares/middlwareValidateData');
 router.post('/auth/login', validateLoginData, userController.login);
 router.get('/', middleware.authenticator,userController.getAllUsers);
 router.post('/', userController.createUser); 
-router.get('/:id', middleware.authenticator, userController.getUserById);
+router.get('/:id', userController.getUserById);
 router.put('/:id', middleware.authenticator, userController.updateUser); 
 router.delete('/:id', middleware.authenticator, middleware.isAdmin, userController.deleteUser);
 
