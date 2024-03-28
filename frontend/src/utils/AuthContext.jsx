@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => (AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
-    setUser(null); 
+    setUser(null);
     Navigate('/');  // Redirige vers la page d'accueil après une connexion réussie
   };
 
