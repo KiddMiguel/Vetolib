@@ -7,6 +7,7 @@ import ConnexionUser from "./pages/user/connexionUser";
 import { Route, Routes } from "react-router-dom";
 import { useAuth } from "./utils/AuthContext";
 import CabinetDetails from "./components/CabinetDetails";
+import Inscription from "./pages/user/inscription";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -24,6 +25,7 @@ function App() {
             <Route path="/accueil" element={<Accueil />} />
             <Route path="/connexion" element={<ConnexionUser />} />
             <Route path="/cabinet/:id" element={<CabinetDetails />} />
+            <Route path="/inscription" element={<Inscription />} />
 
           </Routes>
         </div>
