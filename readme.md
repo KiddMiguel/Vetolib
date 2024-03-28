@@ -297,6 +297,3 @@ Après avoir démarré l'application et peuplé la base de données, vous pouvez
 - Chercher et consulter des cabinets vétérinaires.
 - Ajouter et gérer des informations sur vos animaux.
 - Prendre des rendez-vous avec des vétérinaires.
-#   V e t o l i b  
- #   V e t o l i b  
- 
