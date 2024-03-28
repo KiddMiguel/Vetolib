@@ -2,7 +2,7 @@ const db = require('../databases/database');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.getAllUsers = async(req, res) => {
+exports.getAllUsers = async (req, res) => {
     try {
         const resultat = await db.query("CALL GetAllUsers()");
         console.log(resultat);
@@ -12,7 +12,7 @@ exports.getAllUsers = async(req, res) => {
     }
 };
 
-exports.createUser = async(req, res) => {
+/**exports.createUser = async(req, res) => {
     const { nom, prenom, password, email, user_type } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -22,9 +22,32 @@ exports.createUser = async(req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la création de l'utilisateur", error });
     }
+};**/
+
+exports.createUser = async (req, res) => {
+    const { nom, prenom, password, email, user_type } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    try {
+        const result = await db.query("CALL CreateUser(?, ?, ?, ?, ?)", [email, hashedPassword, nom, prenom, user_type]);
+        const token = jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        res.status(201).json({
+            message: "Utilisateur créé avec succès",
+            token: token,
+            user: {
+                email: email,
+                nom: nom,
+                prenom: prenom,
+                user_type: user_type
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la création de l'utilisateur", error });
+    }
 };
 
-exports.getUserById = async(req, res) => {
+
+exports.getUserById = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -40,11 +63,11 @@ exports.getUserById = async(req, res) => {
     }
 };
 
-exports.updateUser = async(req, res) => {
+exports.updateUser = async (req, res) => {
     const { id } = req.params;
     // Supposons que le corps de la requête inclut désormais 'nom' et 'prenom' au lieu de 'username'.
     const { nom, prenom, password, email, user_type, image, phone, address } = req.body;
-    
+
     let hashedPassword = password;
     if (password) {
         hashedPassword = await bcrypt.hash(password, 10);
@@ -60,7 +83,7 @@ exports.updateUser = async(req, res) => {
 };
 
 
-exports.deleteUser = async(req, res) => {
+exports.deleteUser = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -70,7 +93,7 @@ exports.deleteUser = async(req, res) => {
         res.status(500).json({ message: "Erreur lors de la suppression de l'utilisateur", error });
     }
 };
-exports.login = async(req, res) => {
+exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const result = await db.query('CALL LoginUser(?)', [email]);
@@ -91,11 +114,11 @@ exports.login = async(req, res) => {
 
         if (user.user_type === "admin") {
             // Tu peux ajouter les données supplémentaires ici
-            return res.json({ token: token, role: user.user_type });
+            return res.json({ token: token, role: user.user_type, user: { nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, image: user.image, phone: user.phone } });
         }
 
         // Pour un utilisateur non admin, tu renvoies simplement le token
-        return res.json({ token: token, role: user.user_type, user : {nom : user.nom, prenom : user.prenom, email : user.email, address : user.address , image : user.image, phone : user.phone } });
+        return res.json({ token: token, role: user.user_type, user: { nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, image: user.image, phone: user.phone } });
 
     } catch (error) {
         console.error(error);
