@@ -7,6 +7,7 @@ import ConnexionUser from "./pages/user/connexionUser";
 import { Route, Routes } from "react-router-dom";
 import { useAuth } from "./utils/AuthContext";
 import CabinetDetails from "./components/CabinetDetails";
+import Animal from "./pages/animal/animal";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -22,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Accueil />} />
             <Route path="/accueil" element={<Accueil />} />
+            <Route path="/animal" element={<Animal />} />
             <Route path="/connexion" element={<ConnexionUser />} />
             <Route path="/cabinet/:id" element={<CabinetDetails />} />
 
