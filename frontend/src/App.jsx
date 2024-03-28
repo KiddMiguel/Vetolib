@@ -18,11 +18,13 @@ import AnimalList from "./pages/animal/animalist";
 import Detanimal from "./pages/animal/detanimal";
 import AddAnimal from "./pages/animal/addanimal";
 import EditAnimal from "./pages/animal/editanimal";
+import Appointment from "./pages/appointment/appointment";
 
 
 function App() {
   const [count, setCount] = useState(0);
   const { isAuthenticated, logout, user } = useAuth();
+  console.log("isAuthenticated ici : ",isAuthenticated);
   
   console.log("user ici : ",user);
   return (
@@ -36,18 +38,21 @@ function App() {
             <Route path="/" element={<Accueil />} />
             <Route path="/accueil" element={<Accueil />} />
             <Route path="/animal" element={<Animal />} />
-            <Route path="/animalist" element={<AnimalList />} />
+            <Route path="/appointments" element={<Appointment />} />
             <Route path="/connexion" element={<ConnexionUser />} />
+            <Route path="/cabinet/" element={<Cabinet />} />
             <Route path="/cabinet/:id" element={<CabinetDetails />} />
+            <Route path="/animal/owner/:id" element={<Detanimal />} />
+
+            {/* <Route path="/animalist" element={<AnimalList />} />
             <Route path="/inscription" element={<Inscription />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/cabinet/" element={<Cabinet />} />
+                        <Route path="/animal/:id" element={<Detanimal />} />
             <Route path="/createCabinet" element={<AddCabinet />} /> 
             <Route path="/editCabinet/:id" element={<EditCabinet />} />
             <Route path="/deleteCabinet/:id" element={<DeleteCabinet />} />
-            <Route path="/animal/:id" element={<Detanimal />} />
             <Route path="/addanimal" element={<AddAnimal />} />
-            <Route path="/editanimal/:id" element={<EditAnimal />} />
+            <Route path="/editanimal/:id" element={<EditAnimal />} /> */}
           </Routes>
         </div>
         <div className="mt-5">

@@ -30,7 +30,6 @@ Le server devrait maintenant être accessible à l'adresse `http://localhost:800
 
 ## Configuration de la Base de Données
 
-
 Vetolib utilise MySQL comme système de gestion de base de données. Voici comment configurer la base de données :
 
 1. Lancer votre MairiaDb et utiliser ces requettes
@@ -89,13 +88,15 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
         CREATE TABLE Appointment (
             appointment_id INT PRIMARY KEY AUTO_INCREMENT,
             cabinet_id INT,
+            owner_id INT, 
             animal_id INT,
-            appointment_date DATETIME NOT NULL,
+            appointment_date DATE NOT NULL,
             status ENUM('planned', 'completed', 'cancelled') NOT NULL,
             reason VARCHAR(255),
             notes TEXT,
             FOREIGN KEY (cabinet_id) REFERENCES Cabinet(cabinet_id),
-            FOREIGN KEY (animal_id) REFERENCES Animal(animal_id)
+            FOREIGN KEY (animal_id) REFERENCES Animal(animal_id),
+            FOREIGN KEY (owner_id) REFERENCES USER(user_id),
         );    
     ```
 2. Créer les Procédures qui séront utilisés :
@@ -298,4 +299,3 @@ Après avoir démarré l'application et peuplé la base de données, vous pouvez
 - Chercher et consulter des cabinets vétérinaires.
 - Ajouter et gérer des informations sur vos animaux.
 - Prendre des rendez-vous avec des vétérinaires.
-#
