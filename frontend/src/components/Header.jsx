@@ -32,13 +32,13 @@ const Header = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu className='w-25'>
-                <Dropdown.Item href="#/action-1"><i className="bi bi-person-fill"></i> Mon profil </Dropdown.Item>
+                <Dropdown.Item href="/profile"><i className="bi bi-person-fill"></i> Mon profil </Dropdown.Item>
                 <Dropdown.Item onClick={logout} className='text-danger'> <i className="bi bi-box-arrow-left text-danger"></i> Déconnecter</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           ) : (
             <Nav>
-              <Nav.Link href="/inscription" className="mt-2 fw-semibold text-white">
+              <Nav.Link href="/veterinaire" className="mt-2 fw-semibold text-white">
                 Vous êtes un vétérinaire ?
               </Nav.Link>
               <Nav.Link eventKey={2} href="/connexion">
