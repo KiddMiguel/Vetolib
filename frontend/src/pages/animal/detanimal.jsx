@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useEffect, useState, useHistory } from 'react';
+import getOwnerName from '../../utils/GetOwner';
 const DetAnimal = () => {
     const [animals, setAnimals] = useState([]);
-
-    // Code de la page de détails de l'animal
-
+    const history = useHistory();
+    const handleEdit = () => {
+        history.push(`/editanimal/${animals.id}`);
+        };
+    const handleDelete = () => {
+        fetch(`http://localhost:8000/animal/${animals.id}`, {
+            method: 'DELETE'
+        }).then(() => {
+            history.push('/animal');
+        });
+    };
     useEffect(() => {
         const fetchOwnerNames = async () => {
             const updatedAnimals = await Promise.all(animals.map(async (animal) => {
@@ -13,9 +21,8 @@ const DetAnimal = () => {
             }));
             setAnimals(updatedAnimals);
         };
-        fetchOwnerNames(); // Call the fetchOwnerNames function
+        fetchOwnerNames();
     }, [animals]);
-
     return (
         <div className="hero min-h-screen bg-base-100 flex justify-center items-center">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -34,8 +41,8 @@ const DetAnimal = () => {
                     <h1 className="text-2xl font-bold">Description</h1>
                     <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
                     <div className="flex space-x-4">
-                        <button className="btn btn-ghost">Edit</button>
-                        <button className="btn btn-danger">Delete</button>
+                        <button onClick={handleEdit} className="btn btn-ghost">Edit</button>
+                        <button onClick={handleDelete} className="btn btn-danger">Delete</button>
                     </div>
                 </div>
             </div>
@@ -44,3 +51,4 @@ const DetAnimal = () => {
 };
 
 export default DetAnimal;
+
