@@ -19,7 +19,8 @@ const Connexion = () => {
         email,
         password,
       });
-      console.log(response);
+
+      console.log(response.data);
       login(response.data.token, response.data.user);
       navigate('/');  // Redirige vers la page d'accueil après une connexion réussie
     } catch (error) {

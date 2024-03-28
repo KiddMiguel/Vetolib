@@ -15,7 +15,8 @@ const Inscription = () => {
     const [acceptDataPolicy, setAcceptDataPolicy] = useState(false);
 
     const navigate = useNavigate();
-    const { login } = useAuth(); // Assure-toi que cette fonction est bien définie dans ton contexte d'authentification
+    const { login } = useAuth();
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -36,7 +37,7 @@ const Inscription = () => {
 
         try {
             const response = await axios.post("http://localhost:8000/user/", userObject);
-            console.log("data ici0", response.data);
+            console.log("data ici0", response.data.token);
             if (response.data.token) {
                 login(response.data.token, response.data.user); // Assure-toi que cette fonction agit comme attendu
                 navigate('/'); // Redirection après l'inscription réussie
