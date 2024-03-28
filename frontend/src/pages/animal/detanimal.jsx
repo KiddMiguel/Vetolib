@@ -23,6 +23,23 @@ const DetAnimal = () => {
         };
         fetchOwnerNames();
     }, [animals]);
+
+    useEffect(() => {
+
+        const fetchAnimal = async () => {
+            try {
+                const response = await  fetch(`http://localhost:8000/animal/${animals.id}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setAnimals(data);
+                }
+            } catch (error) {
+                console.error('Error fetching animals:', error);
+            }
+        }
+        fetchAnimal();
+    }
+    , []);
     return (
         <div className="hero min-h-screen bg-base-100 flex justify-center items-center">
             <div className="hero-content flex-col lg:flex-row-reverse">
