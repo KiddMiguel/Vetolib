@@ -23,6 +23,23 @@ const DetAnimal = () => {
         };
         fetchOwnerNames();
     }, [animals]);
+
+    useEffect(() => {
+
+        const fetchAnimal = async () => {
+            try {
+                const response = await  fetch(`http://localhost:8000/animal/${animals.id}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setAnimals(data);
+                }
+            } catch (error) {
+                console.error('Error fetching animals:', error);
+            }
+        }
+        fetchAnimal();
+    }
+    , []);
     return (
         <div className="hero min-h-screen bg-base-100 flex justify-center items-center">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -31,7 +48,7 @@ const DetAnimal = () => {
                     {animals.map((animal) =>
                         <div key={animal.id}>
                             <h1 className="text-5xl font-bold">{animal.animal_name}</h1>
-                            <p><strong>Propriétaire:</strong>{animal.username}</p>
+                            <p><strong>Propriétaire:</strong>{user.nom+""+user.prenom}</p>
                             <p><strong>Cabinet: </strong>{animal.ca_id}</p>
                             <p><strong>Race:</strong>{animal.race}</p>
                             <p><strong>Âge:</strong>{animal.age}</p>

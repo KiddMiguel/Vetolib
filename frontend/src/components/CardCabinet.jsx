@@ -27,7 +27,7 @@ const CardCabinet = ({ appointment }) => {
     const deleteRdv = async (appointment_id) => {
         try {
             await axios.delete(`/appointments/${appointment_id}`);
-            navigate('/');
+            navigate(0);
         } catch (error) {
             console.log(error);
         }
