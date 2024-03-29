@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../utils/AuthContext";
 
  
 const cabinetStyles = {
@@ -15,10 +16,12 @@ const cabinetStyles = {
       flex: '0 1 calc(33.33% - 20px)', // Ajuste la largeur des cartes pour afficher 3 colonnes
     }
   };
-  
+
  
 const Cabinet = () => {
   const [cabinetData, setCabinetData] = useState([]);
+  const { isAuthenticated, logout, user } = useAuth();
+
  
   const getCabinet = async () => {
     try {
@@ -53,8 +56,8 @@ const Cabinet = () => {
 <p className="text-green-500">Adresse : {cabinet.address}, {cabinet.city}</p>
 <p className="text-green-500">Num téléphone : {cabinet.phone_number}</p>
 <div className="card-actions">
-<Link to={`/deletecabinet/${cabinet.cabinet_id}`} className="btn btn-primary">Supprimer {cabinet.cabinet_name}</Link>
-<Link to={`/editcabinet/${cabinet.cabinet_id}`} className="btn btn-primary">Modifier {cabinet.cabinet_name}</Link>
+
+
                     {cabinet.is_available
                       ? <Link to={`/cabinet/${cabinet.cabinet_id}`} className="btn btn-primary">Ouvert</Link>
                       : <Link to="/cabinet" className="btn btn-primary">Fermé</Link>}
