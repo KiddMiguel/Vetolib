@@ -91,7 +91,7 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
             owner_id INT, 
             animal_id INT,
             appointment_date DATE NOT NULL,
-            status ENUM('planned', 'completed', 'cancelled') NOT NULL,
+            status ENUM('Planifier','Confirmer','Annuler') NOT NULL,
             reason VARCHAR(255),
             notes TEXT,
             FOREIGN KEY (cabinet_id) REFERENCES Cabinet(cabinet_id),
