@@ -12,18 +12,6 @@ exports.getAllUsers = async (req, res) => {
     }
 };
 
-/**exports.createUser = async(req, res) => {
-    const { nom, prenom, password, email, user_type } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    try {
-        await db.query("CALL CreateUser(?, ?, ?, ?, ?)", [email, hashedPassword, nom, prenom, user_type]);
-        res.status(201).json({ message: "Utilisateur créé avec succès" });
-    } catch (error) {
-        res.status(500).json({ message: "Erreur lors de la création de l'utilisateur", error });
-    }
-};**/
-
 exports.createUser = async (req, res) => {
     const { nom, prenom, password, email, user_type } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -114,11 +102,11 @@ exports.login = async (req, res) => {
 
         if (user.user_type === "admin") {
             // Tu peux ajouter les données supplémentaires ici
-            return res.json({ token: token, role: user.user_type, user: { user_id :user.user_id,  nom: user.nom, prenom: user.prenom, email: user.email,  address: user.address, user_type : user.user_type, image: user.image, phone: user.phone } });
+            return res.json({ token: token, role: user.user_type, user: { user_id: user.user_id, nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, user_type: user.user_type, image: user.image, phone: user.phone } });
         }
 
         // Pour un utilisateur non admin, tu renvoies simplement le token
-        return res.json({ token: token, role: user.user_type, user: {user_id : user.user_id, nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, user_type : user.user_type, image: user.image, phone: user.phone } });
+        return res.json({ token: token, role: user.user_type, user: { user_id: user.user_id, nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, user_type: user.user_type, image: user.image, phone: user.phone } });
 
     } catch (error) {
         console.error(error);

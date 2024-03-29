@@ -19,7 +19,7 @@ import Detanimal from "./pages/animal/detanimal";
 import AddAnimal from "./pages/animal/addanimal";
 import EditAnimal from "./pages/animal/editanimal";
 import Appointment from "./pages/appointment/appointment";
-
+import UpdateProfile from "./pages/user/updateProfile"
 
 function App() {
   const [count, setCount] = useState(0);
@@ -44,9 +44,11 @@ function App() {
             <Route path="/cabinet/:id" element={<CabinetDetails />} />
             <Route path="/animal/owner/:id" element={<Detanimal />} />
             <Route path="/inscription" element={<Inscription />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/update-profile" element={<UpdateProfile />} />
             {/* <Route path="/animalist" element={<AnimalList />} />
             <Route path="/inscription" element={<Inscription />} />
-            <Route path="/profile" element={<Profile />} />
+            
                         <Route path="/animal/:id" element={<Detanimal />} />
             <Route path="/createCabinet" element={<AddCabinet />} /> 
             <Route path="/editCabinet/:id" element={<EditCabinet />} />
