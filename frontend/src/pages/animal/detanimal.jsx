@@ -28,7 +28,7 @@ const DetAnimal = () => {
 
         const fetchAnimal = async () => {
             try {
-                const response = await  fetch(`http://localhost:8000/animal/${animals.id}`);
+                const response = await  fetch(`http://localhost:8000/animal/${animals.id}`
                 if (response.ok) {
                     const data = await response.json();
                     setAnimals(data);
