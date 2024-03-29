@@ -9,11 +9,13 @@ export default function Animal() {
   const navigate = useNavigate();
 
   const handleDelete = (id) => {
-        fetch(`http://localhost:8000/animal/${id}`, {
-            method: 'DELETE'
-        }).then(() => {
-            navigate(0);
-        });
+        axios.delete(`http://localhost:8000/animal/${id}`)
+          .then(() => {
+            navigate();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     };
   const { user } = useAuth();
   console.log(user);
@@ -94,7 +96,7 @@ export default function Animal() {
                   <Link to={`/detanimal/${user.user_id}`} className="btn btn-primary">Voir détails</Link>
                 </th>
                 <th>
-                  <button onClick={handleDelete(animal.animal_id)}  className="btn btn-danger">Effacer</button>
+                  <button className="btn btn-danger" onClick={() => handleDelete(animal.animal_id)}>Effacer</button>
                 </th>
               </tr>
 

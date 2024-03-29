@@ -19,7 +19,7 @@ const AddAnimal = () => {
         try {
             const response = await axios.post('http://localhost:8000/animal', animal);
             
-            if (response.status === 200) {
+            if (response.status === 201) {
                 navigate(`/animal/owner/${user.user_id}`); // Rediriger l'utilisateur vers la liste des animaux
             } else {
                 console.error('Erreur lors de la création de l\'animal');

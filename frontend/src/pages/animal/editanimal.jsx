@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "../../utils/axios";
 
 const EditAnimal = () => {
     const { id } = useParams();
@@ -8,16 +9,16 @@ const EditAnimal = () => {
     const [animalType, setAnimalType] = useState("");
     const [race, setRace] = useState("");
     const [age, setAge] = useState("");
-    const [isAvailable, setIsAvailable] = useState(false);
+    const [sexe, setSex] = useState("");
 
     const navigate = useNavigate();
 
     useEffect(() => {
         const getAnimalDetails = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/animal/${id}`);
-                if (response.ok) {
-                    const animalData = await response.json();
+                const response = await axios.get(`http://localhost:8000/animal/${id}`);
+                if (response.status === 200) {
+                    const animalData = response.data;
                     setAnimalName(animalData.animal_name);
                     setAnimalType(animalData.animal_type);
                     setRace(animalData.race);
@@ -32,32 +33,23 @@ const EditAnimal = () => {
         };
 
         getAnimalDetails();
-    }, [id]);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const updatedAnimal = {
-            animal_name: animalName,
-            animal_type: animalType,
-            race: race,
-            age: age,
-            is_available: isAvailable
-        };
-
         try {
-            const response = await fetch(`http://localhost:8000/animal/${id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(updatedAnimal)
+            const response = await axios.put(`http://localhost:8000/animal/${id}`, {
+                animal_name: animalName,
+                animal_type: animalType,
+                race: race,
+                age: age,
+                sex: sexe,
             });
-
-            if (response.ok) {
-                navigate("/animal");
+            if (response.status === 200) {
+                console.log("Animal details updated successfully");
+                // Add any additional logic or navigation here
             } else {
-                console.error("Error updating animal");
+                console.error("Error updating animal details");
             }
         } catch (error) {
             console.error("Error:", error);
