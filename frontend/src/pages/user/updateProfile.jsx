@@ -13,9 +13,8 @@ const UpdateProfile = () => {
         nom: '',
         prenom: '',
         email: '',
-        user_type: '',
-        newPassword: '', // Nouveau champ pour le nouveau mot de passe
-    });
+        user_type: ''
+      });
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -24,7 +23,7 @@ const UpdateProfile = () => {
         setLoading(true);
         axios.get(`http://localhost:8000/user/${user.user_id}`)
             .then(response => {
-                setUserData({ ...response.data, newPassword: '' }); // Supprime le champ newPassword pour éviter de l'afficher
+                setUserData({ ...response.data }); // Supprime le champ newPassword pour éviter de l'afficher
                 setLoading(false);
             })
             .catch(err => {
@@ -88,10 +87,10 @@ const UpdateProfile = () => {
                         <option value="propriétaire">Propriétaire</option>
                     </select>
                 </div>
-                <div style={{ marginBottom: '10px' }}>
+                {/* <div style={{ marginBottom: '10px' }}>
                     <label>Nouveau mot de passe (laisser vide si inchangé):</label>
                     <input type="password" name="newPassword" value={userData.newPassword || ''} onChange={handleInputChange} style={inputStyle} />
-                </div>
+                </div> */}
                 <button type="submit" style={submitButtonStyle}>Mettre à jour</button>
             </form>
         </div>

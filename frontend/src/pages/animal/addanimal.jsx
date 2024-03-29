@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../utils/AuthContext';
+import axios from '../../utils/axios';
 
 const AddAnimal = () => {
+    const { user } = useAuth();
     const [animal_name, setName] = useState('');
     const [animal_type, setSpecies] = useState('');
     const [age, setAge] = useState('');
@@ -12,19 +15,12 @@ const AddAnimal = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const animal = { animal_name, animal_type, race, sex, age };
-
+        const animal = { owner_id: user.user_id, animal_name, animal_type, race, sex, age };
         try {
-            const response = await fetch('http://localhost:8000/animal', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(animal),
-            });
-
-            if (response.ok) {
-                navigate('/accueil');
+            const response = await axios.post('http://localhost:8000/animal', animal);
+            
+            if (response.status === 200) {
+                navigate(`/animal/owner/${user.user_id}`); // Rediriger l'utilisateur vers la liste des animaux
             } else {
                 console.error('Erreur lors de la création de l\'animal');
             }
