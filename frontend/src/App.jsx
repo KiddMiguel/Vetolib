@@ -24,9 +24,9 @@ import Appointment from "./pages/appointment/appointment";
 function App() {
   const [count, setCount] = useState(0);
   const { isAuthenticated, logout, user } = useAuth();
-  console.log("isAuthenticated ici : ",isAuthenticated);
-  
-  console.log("user ici : ",user);
+  console.log("isAuthenticated ici : ", isAuthenticated);
+
+  console.log("user ici : ", user);
   return (
     <>
       <div>
@@ -43,7 +43,7 @@ function App() {
             <Route path="/cabinet/" element={<Cabinet />} />
             <Route path="/cabinet/:id" element={<CabinetDetails />} />
             <Route path="/animal/owner/:id" element={<Detanimal />} />
-
+            <Route path="/inscription" element={<Inscription />} />
             {/* <Route path="/animalist" element={<AnimalList />} />
             <Route path="/inscription" element={<Inscription />} />
             <Route path="/profile" element={<Profile />} />
