@@ -19,14 +19,14 @@ import Detanimal from "./pages/animal/detanimal";
 import AddAnimal from "./pages/animal/addanimal";
 import EditAnimal from "./pages/animal/editanimal";
 import Appointment from "./pages/appointment/appointment";
-
+import UpdateProfile from "./pages/user/updateProfile"
 
 function App() {
   const [count, setCount] = useState(0);
   const { isAuthenticated, logout, user } = useAuth();
-  console.log("isAuthenticated ici : ",isAuthenticated);
-  
-  console.log("user ici : ",user);
+  console.log("isAuthenticated ici : ", isAuthenticated);
+
+  console.log("user ici : ", user);
   return (
     <>
       <div>
@@ -43,10 +43,12 @@ function App() {
             <Route path="/cabinet/" element={<Cabinet />} />
             <Route path="/cabinet/:id" element={<CabinetDetails />} />
             <Route path="/animal/owner/:id" element={<Detanimal />} />
-
-            {/* <Route path="/animalist" element={<AnimalList />} />
             <Route path="/inscription" element={<Inscription />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/update-profile" element={<UpdateProfile />} />
+            {/* <Route path="/animalist" element={<AnimalList />} />
+            <Route path="/inscription" element={<Inscription />} />
+            
                         <Route path="/animal/:id" element={<Detanimal />} />
             <Route path="/createCabinet" element={<AddCabinet />} /> 
             <Route path="/editCabinet/:id" element={<EditCabinet />} />

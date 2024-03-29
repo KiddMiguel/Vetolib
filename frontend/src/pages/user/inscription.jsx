@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Inscription = () => {
     const [nom, setNom] = useState("");
     const [prenom, setPrenom] = useState("");
-    const [username, setUsername] = useState(""); // Si nécessaire pour ton API
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [userType, setUserType] = useState("user");
