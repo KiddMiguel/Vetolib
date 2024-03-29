@@ -70,14 +70,7 @@ const CabinetDetails = () => {
             <p>128 Rue de l'Abbé Groult, 75015 Paris</p>
             </div>
           </div>
-          {isAuthenticated && user && user.user_type === "propriétaire" ? (
-  <div>
-    <Link to={`/deletecabinet/${cabinet.cabinet_id}`} className="btn">Mode propriétaire : Supprimer {cabinet.cabinet_name}</Link>
-    
-<Link to={`/editcabinet/${cabinet.cabinet_id}`} className="btn">Mode propriétaire : Modifier {cabinet.cabinet_name}</Link>
-</div>)
-: <p></p>
-}
+      
           
           <div className='ms-auto mt-5'>
           <ModalRdv veterinaire={veterinaire} onConfirm={() => handleConfirmRdv(user.user_id)} />

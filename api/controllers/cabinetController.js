@@ -50,8 +50,6 @@ exports.getUserByOwner = async(req, res) => {
     }
 };
 
-
-
 exports.editCabinet = async(req, res) => {
     const cabinet_id = req.params.id;
     const { cabinet_name, owner_id, address, city, phone_number, image, is_available } = req.body;
@@ -70,5 +68,15 @@ exports.deleteCabinet = async(req, res) => {
         res.status(200).json({ message: 'Cabinet supprimé avec succès' });
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la suppression du cabinet", error });
+    }
+};
+
+exports.getCabinetByOwnerID = async(req, res) => {
+    const id = req.params.id;
+    try{
+        const resultats = await db.query("SELECT cabinet.* FROM cabinet JOIN user ON cabinet.owner_id = user.user_id WHERE user.user_id = ?", [id]);
+        res.status(200).json(resultats);
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la récupération des cabinets", error });
     }
 };

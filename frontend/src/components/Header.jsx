@@ -40,7 +40,7 @@ const Header = () => {
                 <Dropdown.Item > <Link to="/profile" className='nav-link'><i className="bi bi-person-fill"></i> Mon profil </Link></Dropdown.Item>
                 <Dropdown.Item > <Link to={"/animal/owner/"+user.user_id} className='nav-link'><i className="bi bi-house-heart-fill"></i> Mes animaux </Link> </Dropdown.Item>
                 <Dropdown.Item > <Link to="/appointments" className='nav-link'><i className="bi bi-calendar-check-fill"></i> Mes RDV </Link></Dropdown.Item>
-                {isAuthenticated && user && user.user_id ?
+                {isAuthenticated && user && user.user_type === "propriétaire" ?
                 <Dropdown.Item ><Link to="/monCabinet" className='nav-link'><i className="bi bi-person-fill"></i> Mon Cabinet </Link></Dropdown.Item>                
               : <Dropdown.Item ><Link to="/cabinet" className='nav-link'><i className="bi bi-person-fill"></i> Cabinets </Link></Dropdown.Item>
               }

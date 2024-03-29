@@ -10,6 +10,6 @@ router.get('/:id', /* authenticator,*/ cabinetController.getCabinet);
 router.post('/', /* authenticator,*/ cabinetController.addCabinet);
 router.put('/:id', /* authenticator,*/ cabinetController.editCabinet);
 router.delete('/:id', /* authenticator,*/ cabinetController.deleteCabinet);
-router.get('/owner/:id', /* authenticator,*/ cabinetController.getUserByOwner);
+router.get('/moncabinet/:id', cabinetController.getCabinetByOwnerID);
 
 module.exports = router;

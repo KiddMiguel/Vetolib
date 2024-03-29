@@ -49,7 +49,7 @@ const Cabinet = () => {
           {cabinetData.map((cabinet) => (
 <div key={cabinet.id} style={cabinetStyles.cardContainer}>
 <div className="card bg-base-100 shadow-xl">
-<figure><img src="https://daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg" alt="Album"/></figure>
+<figure><img style={{ width: "100%" }} src="../public/images/Goldy.jpg" alt="Album"/></figure>
 <div className="card-body">
 <h2 className="card-title text-green-500">{cabinet.cabinet_name}</h2>
 <p className="text-green-500">Description : {cabinet.description}</p>
