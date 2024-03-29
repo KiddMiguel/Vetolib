@@ -1,82 +1,93 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from "../../utils/AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 const UpdateProfile = () => {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
+    const navigate = useNavigate();
+
     const [userData, setUserData] = useState({
         nom: '',
         prenom: '',
         email: '',
         user_type: '',
-        // Ajoute d'autres champs si nécessaire
+        newPassword: '', // Nouveau champ pour le nouveau mot de passe
     });
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await axios.get(`http://localhost:8000/user/${user.user_id}`);
-                setUserData(response.data);
-            } catch (error) {
-                setError('Erreur lors du chargement des données de l’utilisateur.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUserData();
-    }, [user.user_id]);
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setUserData(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
         setLoading(true);
-        axios.put(`http://localhost:8000/user/${user.id}`, userData)
+        axios.get(`http://localhost:8000/user/${user.user_id}`)
             .then(response => {
-                alert('Informations mises à jour avec succès.');
+                setUserData({ ...response.data, newPassword: '' }); // Supprime le champ newPassword pour éviter de l'afficher
                 setLoading(false);
             })
-            .catch(error => {
-                setError('Erreur lors de la mise à jour des informations.');
+            .catch(err => {
+                setError('Erreur lors du chargement des données de l’utilisateur.');
                 setLoading(false);
             });
+    }, [user.id]);
+
+    const handleInputChange = e => {
+        const { name, value } = e.target;
+        setUserData(prevState => ({ ...prevState, [name]: value }));
+    };
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+
+        let updateData = { ...userData };
+        delete updateData.newPassword; // Supprime newPassword avant l'envoi
+
+        if (userData.newPassword) {
+            updateData.password = userData.newPassword; // Ajoute le nouveau mot de passe s'il existe
+        }
+
+        setLoading(true);
+        try {
+            await axios.put(`http://localhost:8000/user/${user.user_id}`, updateData);
+            alert('Informations mises à jour avec succès.');
+            setUser({ ...user, ...updateData }); // Met à jour les données de l'utilisateur dans le contexte
+            navigate('/profile'); // Redirection vers le profil de l'utilisateur
+        } catch (error) {
+            setError('Erreur lors de la mise à jour des informations.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     if (loading) return <div>Chargement...</div>;
     if (error) return <div>{error}</div>;
 
     return (
-        <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
+        <div className="container" style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
             <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Modifier mon profil</h2>
             <form onSubmit={handleSubmit}>
                 <div style={{ marginBottom: '10px' }}>
                     <label>Nom:</label>
-                    <input type="text" name="nom" value={userData.nom} onChange={handleInputChange} style={inputStyle} />
+                    <input type="text" name="nom" value={userData.nom || ''} onChange={handleInputChange} style={inputStyle} />
                 </div>
                 <div style={{ marginBottom: '10px' }}>
                     <label>Prénom:</label>
-                    <input type="text" name="prenom" value={userData.prenom} onChange={handleInputChange} style={inputStyle} />
+                    <input type="text" name="prenom" value={userData.prenom || ''} onChange={handleInputChange} style={inputStyle} />
                 </div>
                 <div style={{ marginBottom: '10px' }}>
                     <label>Email:</label>
-                    <input type="email" name="email" value={userData.email} onChange={handleInputChange} readOnly style={inputStyle} />
+                    <input type="email" name="email" value={userData.email || ''} onChange={handleInputChange} readOnly style={inputStyle} />
                 </div>
                 <div style={{ marginBottom: '20px' }}>
                     <label>Vous êtes:</label>
-                    <select name="user_type" value={userData.user_type} onChange={handleInputChange} style={selectStyle}>
+                    <select name="user_type" value={userData.user_type || ''} onChange={handleInputChange} style={selectStyle}>
                         <option value="user">Utilisateur</option>
                         <option value="propriétaire">Propriétaire</option>
-                        {/* Ajoute d'autres options si nécessaire */}
                     </select>
+                </div>
+                <div style={{ marginBottom: '10px' }}>
+                    <label>Nouveau mot de passe (laisser vide si inchangé):</label>
+                    <input type="password" name="newPassword" value={userData.newPassword || ''} onChange={handleInputChange} style={inputStyle} />
                 </div>
                 <button type="submit" style={submitButtonStyle}>Mettre à jour</button>
             </form>
