@@ -19,14 +19,14 @@ import Detanimal from "./pages/animal/detanimal";
 import AddAnimal from "./pages/animal/addanimal";
 import EditAnimal from "./pages/animal/editanimal";
 import Appointment from "./pages/appointment/appointment";
+import MonCabinet from "./pages/cabinet/monCabinet";
+
 import UpdateProfile from "./pages/user/updateProfile"
 
 function App() {
   const [count, setCount] = useState(0);
   const { isAuthenticated, logout, user } = useAuth();
-  console.log("isAuthenticated ici : ", isAuthenticated);
 
-  console.log("user ici : ", user);
   return (
     <>
       <div>
@@ -37,28 +37,22 @@ function App() {
           <Routes>
             <Route path="/" element={<Accueil />} />
             <Route path="/accueil" element={<Accueil />} />
+            <Route path="/cabinet/" element={<Cabinet />} />
+            <Route path="/cabinet/:id" element={<CabinetDetails />} />
+            <Route path="/deleteCabinet/:id" element={<DeleteCabinet />}/>                       
+            <Route path="/editCabinet/:id" element={<EditCabinet />} />
+            <Route path="/createCabinet" element={<AddCabinet />} />
+
+            <Route path="/animal" element={<Animal />} />
             <Route path="/animal/owner/:id" element={<Animal />} />
             <Route path="/appointments" element={<Appointment />} />
             <Route path="/connexion" element={<ConnexionUser />} />
-            <Route path="/cabinet/" element={<Cabinet />} />
-            <Route path="/cabinet/:id" element={<CabinetDetails />} />
+     
             <Route path="/animal/owner/:id" element={<Detanimal />} />
-            <Route path="/detanimal/:id" element={<Detanimal />} />
-            <Route path="/animalist" element={<AnimalList />} />
-            <Route path="/addanimal" element={<AddAnimal />} />
-            {/* 
-            <Route path="/inscription" element={<Inscription />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/update-profile" element={<UpdateProfile />} />
-            {/* <Route path="/animalist" element={<AnimalList />} />
-            <Route path="/inscription" element={<Inscription />} />
+
+            <Route path="/monCabinet" element={< MonCabinet />} />
             
-                        <Route path="/animal/:id" element={<Detanimal />} />
-            <Route path="/createCabinet" element={<AddCabinet />} /> 
-            <Route path="/editCabinet/:id" element={<EditCabinet />} />
-            <Route path="/deleteCabinet/:id" element={<DeleteCabinet />} />
-           
-            <Route path="/editanimal/:id" element={<EditAnimal />} /> */}
+ 
           </Routes>
         </div>
         <div className="mt-5">
