@@ -2,21 +2,35 @@ import React, { useState, useEffect } from 'react';
 import getOwnerName from '../../utils/GetOwner'; // Import the getOwnerName function from a separate file
 import { useAuth } from "../../utils/AuthContext";
 import { Link } from "react-router-dom";
+import axios from '../../utils/axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Animal() {
-  const { getUserId } = useAuth();
-  console.log(getUserId.id);
+  const navigate = useNavigate();
+
+  const handleDelete = (id) => {
+        fetch(`http://localhost:8000/animal/${id}`, {
+            method: 'DELETE'
+        }).then(() => {
+            navigate(0);
+        });
+    };
+  const { user } = useAuth();
+  console.log(user);
   const handleButtonClick = () => {
   };
+  const [data, setData] = useState([]);
   const [animals, setAnimals] = useState([]);
   async function fetchData() {
     try {
-      const response = await fetch('http://localhost:8000/animal');
-      if (!response.ok) {
-        throw new Error('Réponse du serveur non valide');
-      }
-      const data = await response.json();
-      console.log(data);
+      axios.get('http://localhost:8000/animal/owner/' + user.user_id)
+        .then((response) => {
+          console.log(response.data);
+          setAnimals(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
       // Get the owner name for each animal
       const animalsWithOwnerName = await Promise.all(
@@ -25,13 +39,17 @@ export default function Animal() {
           return { ...animal, ownerName };
         })
       );
-
+      console.log(animalsWithOwnerName);
       setAnimals(animalsWithOwnerName);
     } catch (error) {
       console.error('Erreur lors de la récupération des données:', error);
       setAnimals([]); // Définir un tableau vide en cas d'erreur
     }
   }
+  console.log(animals);
+
+  console.log(data);
+
 
   useEffect(() => {
     fetchData();
@@ -58,8 +76,8 @@ export default function Animal() {
           <tbody>
             {animals && animals.map((animal) => (
 
-              <tr key={animal.id}>
-                <td className="font-bold"  >{animal.ownerName}</td>
+              <tr key={animal.animal_id}>
+                <td className="font-bold"  >{user.nom +" "+ user.prenom}</td>
                 <td className="font-bold">{animal.animal_name}</td>
                 <td>Cabinet</td>
                 <td>{animal.animal_type}</td>
@@ -68,23 +86,24 @@ export default function Animal() {
                 <td>{animal.age} ans</td>
                 <td>
                   <div className="avatar">
-                    <div className="mask mask-squircle w-12 h-12"><img style={{ width: "50px" }} src="../../../public/img/Goldy.jpg" alt="" />
+                    <div className="mask mask-squircle w-12 h-12"><img style={{ width: "50px" }} src="../../../public/images/Skippy.jpg" alt="" />
                     </div>
                   </div>
                 </td>
                 <th>
-                  <button className="btn btn-primary" onClick={handleButtonClick} >details</button>:<button className="btn btn-secondary" onClick={handleButtonClick} >details</button>
-                  <Link to={`/detanimal/${getUserId.id}`} className="btn btn-primary">Voir détails</Link>
-
-              </th>
+                  <Link to={`/detanimal/${user.user_id}`} className="btn btn-primary">Voir détails</Link>
+                </th>
+                <th>
+                  <button onClick={handleDelete(animal.animal_id)}  className="btn btn-danger">Effacer</button>
+                </th>
               </tr>
 
             ))}
 
-        </tbody>
-      </table>
-    </div >
+          </tbody>
+        </table>
+        <Link to={`/addanimal/`} className="btn btn-primary" style={{margin:"auto"}}>Ajouter</Link>
+      </div >
     </>
   );
 }
-// export default Animal;

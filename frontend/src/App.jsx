@@ -37,12 +37,16 @@ function App() {
           <Routes>
             <Route path="/" element={<Accueil />} />
             <Route path="/accueil" element={<Accueil />} />
-            <Route path="/animal" element={<Animal />} />
+            <Route path="/animal/owner/:id" element={<Animal />} />
             <Route path="/appointments" element={<Appointment />} />
             <Route path="/connexion" element={<ConnexionUser />} />
             <Route path="/cabinet/" element={<Cabinet />} />
             <Route path="/cabinet/:id" element={<CabinetDetails />} />
             <Route path="/animal/owner/:id" element={<Detanimal />} />
+            <Route path="/detanimal/:id" element={<Detanimal />} />
+            <Route path="/animalist" element={<AnimalList />} />
+            <Route path="/addanimal" element={<AddAnimal />} />
+            {/* 
             <Route path="/inscription" element={<Inscription />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/update-profile" element={<UpdateProfile />} />
@@ -53,7 +57,7 @@ function App() {
             <Route path="/createCabinet" element={<AddCabinet />} /> 
             <Route path="/editCabinet/:id" element={<EditCabinet />} />
             <Route path="/deleteCabinet/:id" element={<DeleteCabinet />} />
-            <Route path="/addanimal" element={<AddAnimal />} />
+           
             <Route path="/editanimal/:id" element={<EditAnimal />} /> */}
           </Routes>
         </div>
