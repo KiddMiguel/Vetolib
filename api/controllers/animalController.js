@@ -26,8 +26,8 @@ exports.getAnimalsByOwner = async(req, res) => {
     try {
         const connexion = await pool.getConnection();
         const result = await connexion.query("SELECT * From animal WHERE owner_id = ?", [owner_id]);
-        if (result[0].length > 0) {
-            res.status(200).json(result[0]);
+        if (result.length > 0) {
+            res.status(200).json(result);
         } else {
             res.status(404).json({ message: 'Aucun animal trouvé pour ce propriétaire' });
         }
