@@ -1,32 +1,39 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 const AuthContext = createContext();
+
 
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     console.log("token ici : ",token);
     setIsAuthenticated(!!token);
-    // Pas besoin de récupérer l'utilisateur du localStorage ici
+    login(token, JSON.parse(localStorage.getItem('userInfo')));
   }, []);
 
   const login = (token, userInfo) => {
-    localStorage.setItem('token', token); // On garde le token dans le localStorage pour persister la session
+    localStorage.setItem('token', token); 
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    const user = JSON.parse(localStorage.getItem('userInfo'));
     setIsAuthenticated(true);
-    setUser(userInfo); // On met à jour l'état avec les informations de l'utilisateur
+    setUser(user);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
     setIsAuthenticated(false);
     setUser(null);
-    Navigate('/');  // Redirige vers la page d'accueil après une connexion réussie
+    navigate('/');  
   };
 
   return (
