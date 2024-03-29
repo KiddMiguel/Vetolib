@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
+import axios from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const { user } = useAuth();
+    console.log(user)
     const [userData, setUserData] = useState({
         nom: '',
         prenom: '',

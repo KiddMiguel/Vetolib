@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
+import axios from '../../utils/axios';
+
 import { useAuth } from "../../utils/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
@@ -50,8 +52,9 @@ const UpdateProfile = () => {
         try {
             await axios.put(`http://localhost:8000/user/${user.user_id}`, updateData);
             alert('Informations mises à jour avec succès.');
+            navigate('/profile'); // Redirection vers le profil de l'utilisateur        
             setUser({ ...user, ...updateData }); // Met à jour les données de l'utilisateur dans le contexte
-            navigate('/profile'); // Redirection vers le profil de l'utilisateur
+
         } catch (error) {
             setError('Erreur lors de la mise à jour des informations.');
         } finally {
