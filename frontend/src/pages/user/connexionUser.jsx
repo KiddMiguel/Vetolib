@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; 
 import {useAuth} from "../../utils/AuthContext";
+
 const Connexion = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,7 +56,6 @@ const Connexion = () => {
               className="form-control"
               id="floatingInput"
               placeholder="name@example.com"
-              value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <label htmlFor="floatingInput">Adresse email</label>
@@ -66,7 +66,6 @@ const Connexion = () => {
               className="form-control"
               id="floatingPassword"
               placeholder="Password"
-              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <label htmlFor="floatingPassword">Mot de passe</label>

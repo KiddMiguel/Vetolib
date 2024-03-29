@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
-    // Pas besoin de récupérer l'utilisateur du localStorage ici
   }, []);
 
   const login = (token, userInfo) => {
