@@ -54,16 +54,11 @@ exports.getUserById = async (req, res) => {
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
     // Supposons que le corps de la requête inclut désormais 'nom' et 'prenom' au lieu de 'username'.
-    const { nom, prenom, password, email, user_type } = req.body;
-
-    let hashedPassword = password;
-    if (password) {
-        hashedPassword = await bcrypt.hash(password, 10);
-    }
+    const { nom, prenom, email, user_type } = req.body;
 
     try {
         // Assurez-vous que l'ordre des paramètres correspond à celui attendu par votre procédure stockée ajustée.
-        await db.query("CALL EditUser(?, ?, ?, ?, ?, ?)", [id, email, hashedPassword, nom, prenom, user_type]);
+        await db.query("CALL EditUser(?, ?, ?, ?, ?)", [id, email, nom, prenom, user_type]);
         res.status(200).json({ message: "Utilisateur mis à jour avec succès" });
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la mise à jour de l'utilisateur", error });
