@@ -21,6 +21,21 @@ exports.addAnimal = async(req, res) => {
     }
 };
 
+exports.getAnimalsByOwner = async(req, res) => {
+    const owner_id = req.params.id;
+    try {
+        const connexion = await pool.getConnection();
+        const result = await connexion.query("SELECT * From animal WHERE owner_id = ?", [owner_id]);
+        if (result[0].length > 0) {
+            res.status(200).json(result[0]);
+        } else {
+            res.status(404).json({ message: 'Aucun animal trouvé pour ce propriétaire' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la récupération des animaux", error });
+    }
+}
+
 exports.editAnimal = async(req, res) => {
     const animal_id = req.params.id;
     const { owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit } = req.body;

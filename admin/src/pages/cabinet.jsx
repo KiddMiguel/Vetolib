@@ -67,6 +67,11 @@ const Cabinet = () => {
     
  return (
     <>
+        <div>
+            <h3 className="text-start ms-3 mt-5 text-primary">Liste des Cabinets</h3>
+            <hr />
+        </div>
+
         <TableauAdmin rowData={cabinet} columnDefs={columnDefs} />
         <CustomModal
             show={modalShow}
