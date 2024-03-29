@@ -1,11 +1,48 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
+import { useAuth } from "../utils/AuthContext";
+import ModalRdv from './ModalRdv';
+import axios from '../utils/axios';
 
 const CabinetDetails = () => {
-
-    const [cabinet, setCabinet] = useState({});
+  const navigate = useNavigate(); // Crée une instance de useNavigate
+  const [veterinaire, setVeterinaire] = useState([]);
+  const [cabinet, setCabinet] = useState({});
   const { id } = useParams();
+  const { user } = useAuth();
+  
+
+  console.log(user);
+  const handleVeterinary = () => {
+    axios.get(`http://localhost:8000/cabinet/owner/${id}`)
+      .then((response) => {
+        setVeterinaire(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleConfirmRdv = (userId) => {
+    axios.post('http://localhost:8000/appointments', {
+      cabinet_id: id,
+      owner_id: userId, 
+      appointment_date: '2022-12-12', 
+      reason: 'Consultation de routine',
+      status: 'Confirmer'
+    })
+    .then((response) => {
+      navigate('/appointments');
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
+  
+
+  console.log(veterinaire);
 
   useEffect(() => {
     axios.get(`http://localhost:8000/cabinet/${id}`)
@@ -15,7 +52,11 @@ const CabinetDetails = () => {
       .catch((error) => {
         console.log(error);
       });
+      handleVeterinary();
   }, [id]);
+
+
+
 
     return (
         <div>
@@ -23,12 +64,17 @@ const CabinetDetails = () => {
       <div className="bg-primary pt-2">
         <div className="d-flex container text-white">
           <div>
-            <img src="../../public/images/veto.jpg" width="100%" alt="" />
-          </div>
-          <div>
+          <img src="../../public/images/veto.jpg" width="20%" className='rounded-4' alt="" />
+
             <h3>{cabinet && cabinet.cabinet_name} - {cabinet && cabinet.services_offered} {cabinet && cabinet.city}</h3>
+            <div className='d-flex'>
             <p>128 Rue de l'Abbé Groult, 75015 Paris</p>
+            </div>
           </div>
+          
+          <div className='ms-auto mt-5'>
+          <ModalRdv veterinaire={veterinaire} onConfirm={() => handleConfirmRdv(user.user_id)} />
+            </div>
         </div>
       </div>
 
@@ -103,25 +149,14 @@ const CabinetDetails = () => {
             </div>
           </div>
 
-          <div className="mt-5">
-            <h4>
-              <i className="text-success bi bi-bandaid"></i> Praticiens du
-              cabinet
-            </h4>
-            <hr />
-
-            <div>
-              <button className="btn btn-primary">
-                <i className="bi bi-person-hearts"></i> Dr. Jean Dupont
-              </button>
-            </div>
-          </div>
+         
         </div>
         <div className="col-4 mt-5 ms-5">
             <img src="../../public/images/lib.jpg"  className="img-responsive rounded-2" width="150%" alt="" />
         </div>
       </div>
       </div>
+
         </div>
     );
 };

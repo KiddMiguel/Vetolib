@@ -33,6 +33,25 @@ exports.getCabinet = async(req, res) => {
     }
 };
 
+exports.getUserByOwner = async(req, res) => {
+    const id = req.params.id; 
+    try {
+        const result = await db.query(
+            "SELECT DISTINCT u.* FROM User u JOIN Cabinet c ON u.user_id = c.owner_id WHERE u.user_type = 'propriétaire' AND c.cabinet_id = ?;",
+            [id]
+        );
+        if (result && result.length > 0) {
+            res.status(200).json(result[0]);
+        } else {
+            res.status(404).json({ message: 'Propriétaire ou Cabinet non trouvé' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la récupération du propriétaire", error });
+    }
+};
+
+
+
 exports.editCabinet = async(req, res) => {
     const cabinet_id = req.params.id;
     const { cabinet_name, owner_id, address, city, phone_number, image, is_available } = req.body;

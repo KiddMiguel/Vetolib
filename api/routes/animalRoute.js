@@ -1,7 +1,8 @@
 const express = require('express');
 const animalController = require('../controllers/animalController');
 const router = express.Router();
-const middleware = require('../middlewares/middleware')
+const middleware = require('../middlewares/middleware');
+const { route } = require('./cabinetRoute');
 
 
 // Route pour obtenir tous les animaux
@@ -18,5 +19,6 @@ router.put('/:id', animalController.editAnimal);
 
 // Route pour supprimer un animal
 router.delete('/:id', animalController.deleteAnimal);
+router.get('/owner/:id', animalController.getAnimalsByOwner);
 
 module.exports = router;

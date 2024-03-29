@@ -11,9 +11,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    console.log("token ici : ",token);
     setIsAuthenticated(!!token);
-    // Pas besoin de récupérer l'utilisateur du localStorage ici
   }, []);
 
   const login = (token, userInfo) => {
@@ -25,7 +23,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
-    setUser(null);
+    setUser(null); 
     Navigate('/');  // Redirige vers la page d'accueil après une connexion réussie
   };
 
