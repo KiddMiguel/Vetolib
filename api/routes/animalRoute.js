@@ -19,6 +19,7 @@ router.put('/:id', animalController.editAnimal);
 
 // Route pour supprimer un animal
 router.delete('/:id', animalController.deleteAnimal);
+
 router.get('/owner/:id', animalController.getAnimalsByOwner);
 
 module.exports = router;
