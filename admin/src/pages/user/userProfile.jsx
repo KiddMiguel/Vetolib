@@ -16,6 +16,7 @@ function UserProfile( user) {
     phone: userInfo.phone,
     email: userInfo.email,
     address: userInfo.address,
+    image : "",
   });
 
   const handleSubmit = (event) => {
