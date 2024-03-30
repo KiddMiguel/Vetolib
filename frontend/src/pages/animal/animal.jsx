@@ -93,7 +93,7 @@ export default function Animal() {
                   </div>
                 </td>
                 <th>
-                  <Link to={`/detanimal/${user.user_id}`} className="btn btn-primary">Voir détails</Link>
+                  <Link to={`/detanimal/${animal.animal_id}`} className="btn btn-primary">Voir détails</Link>
                 </th>
                 <th>
                   <button className="btn btn-danger" onClick={() => handleDelete(animal.animal_id)}>Effacer</button>

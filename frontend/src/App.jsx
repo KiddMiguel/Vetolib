@@ -45,6 +45,7 @@ function App() {
             <Route path="/detanimal/:id" element={<Detanimal />} />
             <Route path="/animalist" element={<AnimalList />} />
             <Route path="/addanimal" element={<AddAnimal />} />
+            <Route path="/editanimal/:id" element={<EditAnimal />} />
             {/* 
             <Route path="/inscription" element={<Inscription />} />
             <Route path="/profile" element={<Profile />} />
@@ -53,7 +54,7 @@ function App() {
             <Route path="/editCabinet/:id" element={<EditCabinet />} />
             <Route path="/deleteCabinet/:id" element={<DeleteCabinet />} />
            
-            <Route path="/editanimal/:id" element={<EditAnimal />} /> */}
+            */}
           </Routes>
         </div>
         <div className="mt-5">
