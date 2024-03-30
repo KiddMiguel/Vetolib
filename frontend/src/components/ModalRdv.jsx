@@ -14,8 +14,8 @@ function ModalRdv({ veterinaire, onConfirm }) {
   
     return (
       <>
-        <Button variant="success" onClick={handleShow} className="btn-md">
-        <i className="bi bi-calendar-heart"></i> Prendre RDV avec {veterinaire ? `${veterinaire.nom} ${veterinaire.prenom}` : 'le vétérinaire'}
+        <Button variant={!veterinaire || !veterinaire.nom || !veterinaire.prenom ? 'danger' : "success"} onClick={handleShow} className="btn-md">
+        <i className="bi bi-calendar-heart"></i> {!veterinaire  || !veterinaire.nom || !veterinaire.prenom ? "Pas de vétérinaire pour ce cabinet": "Prendre RDV avec "+veterinaire.nom+" "+veterinaire.prenom}
         </Button>
   
         <Modal

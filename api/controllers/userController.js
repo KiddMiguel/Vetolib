@@ -51,11 +51,9 @@ exports.getUserById = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
-    // Supposons que le corps de la requête inclut désormais 'nom' et 'prenom' au lieu de 'username'.
     const { nom, prenom, email, user_type } = req.body;
 
     try {
-        // Assurez-vous que l'ordre des paramètres correspond à celui attendu par votre procédure stockée ajustée.
         await db.query("CALL EditUser(?, ?, ?, ?, ?)", [id, email, nom, prenom, user_type]);
         res.status(200).json({ message: "Utilisateur mis à jour avec succès" });
     } catch (error) {
@@ -92,15 +90,13 @@ exports.login = async (req, res) => {
         if (!isSamePwd) {
             return res.status(401).json({ error: "Mot de passe incorrect" });
         }
-
-        const token = jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: '1h' });
+        const role = user.user_type;
+        const token = jwt.sign({ email,role }, process.env.SECRET_KEY, { expiresIn: '1h' });
 
         if (user.user_type === "admin") {
-            // Tu peux ajouter les données supplémentaires ici
             return res.json({ token: token, role: user.user_type, user: { user_id: user.user_id, nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, user_type: user.user_type, image: user.image, phone: user.phone } });
         }
 
-        // Pour un utilisateur non admin, tu renvoies simplement le token
         return res.json({ token: token, role: user.user_type, user: { user_id: user.user_id, nom: user.nom, prenom: user.prenom, email: user.email, address: user.address, user_type: user.user_type, image: user.image, phone: user.phone } });
 
     } catch (error) {

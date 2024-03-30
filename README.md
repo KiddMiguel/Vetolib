@@ -1,38 +1,61 @@
+# VetoLib
+
+VetoLib est une solution de gestion intégrée conçue pour les cliniques vétérinaires. Ce projet inclut une interface administrateur, une API, et un frontend pour les utilisateurs.
+
+## Structure du projet
+
+Le projet est divisé en trois dossiers principaux :
+
+- `admin` : Contient le code de l'interface d'administration pour la gestion des utilisateurs, des animaux, et des rendez-vous.
+- `api` : Contient le backend de l'application, qui fournit les endpoints API pour les opérations CRUD sur la base de données.
+- `frontend` : Contient le code du frontend de l'application, utilisé par les clients pour interagir avec les services de VetoLib.
+
 ## Installation
 
-Pour installer et démarrer le projet Vetolib, suivez ces étapes :
+Pour configurer le projet VetoLib, suivez les étapes pour chaque partie du projet.
 
-1. Clonez le répertoire du projet :
-    ```
-    git clone <url_du_projet>
-    ```
-2. Naviguez dans le répertoire du projet :
-    ```
-    cd vetolib
-    ```
-3. Installez les dépendances dans chaque dossier `api` & `frontend`:
-    ```
-    npm install
-    ```
-4. Démarrez l'application :
+### Interface Administrateur
 
-    Lancer le `server`
+```bash
+cd admin
+npm install
+npm run dev
+```
+Créer un fichier `.env`
+```
+    DB_HOST = "localhost"
+    DB_NAME = "vetolib"
+    DB_USER = "root"
+    DB_PWD = ""
+    DB_PORT = 3307
+    SECRET_KEY = "secret_key"
+```
 
-        ```
-        npm start
-        ```
+### API
 
-    Lancer le `frontend` 
-        ```
-        npm run dev
-        ```
-Le server devrait maintenant être accessible à l'adresse `http://localhost:8000`.
+```bash
+cd api
+npm install
+npm start
+```
+### Frontend
 
-## Configuration de la Base de Données
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-Vetolib utilise MySQL comme système de gestion de base de données. Voici comment configurer la base de données :
+# Base de données
+Vous trouverez ci-dessous les scripts nécessaires pour créer la base de données et ses tables.
 
-1. Lancer votre MairiaDb et utiliser ces requettes
+### Création de la base de données
+
+```sql
+```
+
+### Procédures Stockées
+
     ```sql
         CREATE DATABASE Vetolib;
         USE Vetolib;
@@ -99,8 +122,8 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
             FOREIGN KEY (owner_id) REFERENCES USER(user_id),
         );    
     ```
-2. Créer les Procédures qui séront utilisés :
 
+### Procédures Stockées
     ```sql
         --  Création des Procédures de la table Animal
         DELIMITER $$
@@ -222,78 +245,10 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
         DELIMITER ;
     ```
 
-## Peuplement de la Base de Données
+### Inserts de la Base de Données
+Voici quelques exemples d'insertions pour pré-remplir votre base de données avec des données initiales.
 
-Pour peupler la base de données avec des données de test, utilisez les procédures stockées fournies. Voici comment les exécuter :
 
-1. Créez les procédures dans MySQL en exécutant les commandes SQL sous la section "Création des Procédures".
+### Contribution
+Pour contribuer à ce projet, veuillez suivre les bonnes pratiques de développement et soumettre une pull request avec vos modifications.
 
-    ```sql
-    -- Procédure de création des données
-
-    DELIMITER $$
-
-    CREATE PROCEDURE `CreateCabinets`()
-    BEGIN
-    DECLARE i INT DEFAULT 1;
-    WHILE i <= 20 DO
-        INSERT INTO Cabinet (cabinet_name, owner_id, address, city, phone_number, email, image, is_available, opening_hours, services_offered, created_at)
-        VALUES (CONCAT('Cabinet ', i), FLOOR(1 + (RAND() * 4)), CONCAT('Adresse ', i), 'Ville', '0123456789', CONCAT('email', i, '@example.com'), 'image_url', TRUE, '09:00-17:00', 'Services', NOW());
-        SET i = i + 1;
-    END WHILE;
-    END$$
-
-    DELIMITER ;
-
-    DELIMITER $$
-
-    CREATE PROCEDURE `CreateAnimalsForCabinets`()
-    BEGIN
-    DECLARE cabinetCount, i INT DEFAULT 0;
-    SELECT COUNT(*) INTO cabinetCount FROM Cabinet;
-    SET i = 1;
-    WHILE i <= cabinetCount DO
-        INSERT INTO Animal (owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit, created_at)
-        VALUES (i, 'AnimalName', 'AnimalType', 'Race', 'male', 2, 'image_url', TRUE, CURDATE(), NOW()),
-            (i, 'AnimalName2', 'AnimalType', 'Race', 'femelle', 3, 'image_url', FALSE, CURDATE(), NOW()),
-            (i, 'AnimalName3', 'AnimalType', 'Race', 'inconnu', 1, 'image_url', TRUE, CURDATE(), NOW()),
-            (i, 'AnimalName4', 'AnimalType', 'Race', 'male', 4, 'image_url', FALSE, CURDATE(), NOW()),
-            (i, 'AnimalName5', 'AnimalType', 'Race', 'femelle', 5, 'image_url', TRUE, CURDATE(), NOW());
-        SET i = i + 1;
-    END WHILE;
-    END$$
-
-    DELIMITER ;
-
-    DELIMITER $$
-
-    CREATE PROCEDURE `CreateUsersForAnimals`()
-    BEGIN
-    DECLARE animalCount, i INT DEFAULT 0;
-    SELECT COUNT(*) INTO animalCount FROM Animal;
-    SET i = 1;
-    WHILE i <= animalCount DO
-        INSERT INTO User (email, nom, prenom, password, phone, address, user_type, created_at)
-        VALUES (CONCAT('user', i, '@example.com'), CONCAT('Nom', i), CONCAT('Prenom', i), 'password', '0123456789', 'Adresse', 'user', NOW());
-        SET i = i + 1;
-    END WHILE;
-    END$$
-
-    DELIMITER ;
-
-```
-
-2. Exécutez les procédures pour créer les cabinets, les animaux, et les utilisateurs :
-    ```sql
-    CALL CreateCabinets();
-    CALL CreateAnimalsForCabinets();
-    CALL CreateUsersForAnimals();
-    ```
-
-## Utilisation
-
-Après avoir démarré l'application et peuplé la base de données, vous pouvez naviguer dans Vetolib pour :
-
-- Chercher et consulter des cabinets vétérinaires.
-- Ajouter et gérer des informations sur vos animaux.
-- Prendre des rendez-vous avec des vétérinaires.

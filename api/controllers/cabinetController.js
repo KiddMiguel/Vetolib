@@ -33,6 +33,8 @@ exports.getCabinet = async(req, res) => {
     }
 };
 
+
+
 exports.getUserByOwner = async(req, res) => {
     const id = req.params.id; 
     try {
@@ -46,11 +48,27 @@ exports.getUserByOwner = async(req, res) => {
             res.status(404).json({ message: 'Propriétaire ou Cabinet non trouvé' });
         }
     } catch (error) {
-        res.status(500).json({ message: "Erreur lors de la récupération du propriétaire", error });
+        res.status(500).json({ message: "Erreur lors de -la récupération du propriétaire", error });
     }
 };
 
 
+exports.getCabinetByOwner = async(req, res) => {
+    const id = req.params.id; 
+    try {
+        const result = await db.query(
+            "SELECT * FROM Cabinet WHERE owner_id = ?;",
+            [id]
+        );
+        if (result && result.length > 0) {
+            res.status(200).json(result);
+        } else {
+            res.status(404).json({ message: 'Propriétaire ou Cabinet non trouvé' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Erreur lors de la récupération du propriétaire", error });
+    }
+};
 
 exports.editCabinet = async(req, res) => {
     const cabinet_id = req.params.id;

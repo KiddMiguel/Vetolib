@@ -22,8 +22,7 @@ exports.addAnimal = async(req, res) => {
 exports.getAnimalsByOwner = async(req, res) => {
     const owner_id = req.params.id;
     try {
-        const connexion = await pool.getConnection();
-        const result = await connexion.query("SELECT * From animal WHERE owner_id = ?", [owner_id]);
+        const result = await pool.query("SELECT * From animal WHERE owner_id = ?", [owner_id]);
         if (result.length > 0) {
             res.status(200).json(result);
         } else {
@@ -48,8 +47,7 @@ exports.editAnimal = async(req, res) => {
 exports.getAnimalById = async(req, res) => {
     const animal_id = req.params.id; // Modifié pour utiliser params au lieu de body
     try {
-        const connexion = await pool.getConnection();
-        const result = await connexion.query("CALL GetAnimalById(?)", [animal_id]);
+        const result = await pool.query("CALL GetAnimalById(?)", [animal_id]);
         if (result[0].length > 0) {
             res.status(200).json(result[0][0]);
         } else {
@@ -64,8 +62,7 @@ exports.getAnimalById = async(req, res) => {
 exports.deleteAnimal = async(req, res) => {
     const animal_id = req.params.id; // Modifié pour utiliser params au lieu de body
     try {
-        const connexion = await pool.getConnection();
-        await connexion.query("CALL DeleteAnimal(?)", [animal_id]);
+        await pool.query("CALL DeleteAnimal(?)", [animal_id]);
         res.status(200).json({ message: 'Animal supprimé avec succès' });
         } catch (error) {
         res.status(500).json({ message: "Erreur lors de la suppression de l'animal", error });

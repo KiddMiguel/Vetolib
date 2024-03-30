@@ -1,166 +1,144 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../utils/AuthContext";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import axios from '../../utils/axios';
+import {
+  TextField,
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Snackbar,
+  Alert,
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../utils/AuthContext';
 
-const Inscription = () => {
-    const [nom, setNom] = useState("");
-    const [prenom, setPrenom] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    const [userType, setUserType] = useState("user");
-    const [acceptCgu, setAcceptCgu] = useState(false);
-    const [acceptDataPolicy, setAcceptDataPolicy] = useState(false);
-
-    const navigate = useNavigate();
+function UserInscription() {
     const { login } = useAuth();
+  const [formValues, setFormValues] = useState({
+    email: '',
+    password: '',
+    nom: '',
+    prenom: '',
+    user_type: '',
+  });
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+  const navigate = useNavigate();
 
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true); 
+    try {
+      await axios.post('/user/', {
+        ...formValues      });
+      setSubmitSuccess(true);
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+      const response = await axios.post('/user/auth/login', {
+        email: formValues.email,
+        password: formValues.password,
+      });
+      console.log(response.data);
+      login(response.data.token, response.data.user);
+      navigate('/');
+      
+    } catch (error) {
+      setError(error.response?.data?.error || 'Erreur lors de la création de l\'utilisateur.');
+      setSubmitError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-        if (!acceptCgu || !acceptDataPolicy) {
-            alert("Vous devez accepter les CGU et la politique de traitement des données pour vous inscrire.");
-            return;
-        }
+ 
+  const handleCloseSnackbar = () => {
+    setSubmitSuccess(false);
+    setSubmitError(false);
+  };
 
-        const userObject = {
-            email,
-            nom,
-            prenom,
-            username, // Inclus si nécessaire pour ton API
-            password,
-            user_type: userType,
-        };
+  return (
+    <div className='d-flex'>
+        <img src="../../public/images/Skippy.jpg " width="50%" className="d-inline-block align-top me-2 rounded-2 mt-5" alt="" />
+    
+<div style={{ maxWidth: 600, margin: 'auto', paddingTop: '5rem', height : '75vh'}}>
+      <h3 className='text-center text-primary'>NOUVEAU SUR VETOLIB ?</h3>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          fullWidth
+          label="Email"
+          name="email"
+          value={formValues.email}
+          onChange={handleInputChange}
+          margin="normal"
+          required
+        />
+        <TextField
+          fullWidth
+          label="Mot de passe"
+          name="password"
+          type="password"
+          value={formValues.password}
+          onChange={handleInputChange}
+          margin="normal"
+          required
+        />
+        <TextField
+          fullWidth
+          label="Nom"
+          name="nom"
+          value={formValues.nom}
+          onChange={handleInputChange}
+          margin="normal"
+          required
+        />
+        <TextField
+          fullWidth
+          label="Prénom"
+          name="prenom"
+          value={formValues.prenom}
+          onChange={handleInputChange}
+          margin="normal"
+          required
+        />
+        <FormControl fullWidth margin="normal">
+          <InputLabel>Type d'utilisateur</InputLabel>
+          <Select
+            name="user_type"
+            value={formValues.user_type}
+            onChange={handleInputChange}
+            required
+          >
+            <MenuItem value="user">Je suis propriétaire d'un animal</MenuItem>
+            <MenuItem value="propriétaire">Je suis professionnel de santé animale</MenuItem>
+          </Select>
+        </FormControl>
+        <Button type="submit" variant="contained" color="primary" sx={{ mt: 5 }} className='w-100'>
+          S'inscrire
+        </Button>
+      </form>
+      <Snackbar open={submitSuccess} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          L'utilisateur a été créé avec succès !
+        </Alert>
+      </Snackbar>
+      <Snackbar open={submitError} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+        {error || 'Erreur lors de la création de l\'utilisateur.'}
+        </Alert>
+      </Snackbar>
+    </div>
+    </div>
+    
+  );
+}
 
-        try {
-            const response = await axios.post("http://localhost:8000/user/", userObject);
-            console.log("data ici0", response.data.token);
-            if (response.data.token) {
-                login(response.data.token, response.data.user); // Assure-toi que cette fonction agit comme attendu
-                navigate('/'); // Redirection après l'inscription réussie
-            } else {
-                console.log("Inscription réussie mais sans token:", response.data);
-            }
-        } catch (error) {
-            console.error("Erreur lors de l'inscription:", error.response ? error.response.data : error.message);
-        }
-    };
-
-    return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-6 mx-auto">
-                    <div className="card shadow-sm p-4">
-                        <h2 className="text-center mb-4">Inscription</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className="mb-3">
-                                <label htmlFor="nom" className="form-label">Nom</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="nom"
-                                    value={nom}
-                                    onChange={(e) => setNom(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="prenom" className="form-label">Prénom</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="prenom"
-                                    value={prenom}
-                                    onChange={(e) => setPrenom(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            {/* Champ username si nécessaire */}
-                            <div className="mb-3">
-                                <label htmlFor="username" className="form-label">Nom d'utilisateur</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="username"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="email" className="form-label">Email</label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    id="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="password" className="form-label">Mot de passe</label>
-                                <input
-                                    type="password"
-                                    className="form-control"
-                                    id="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label htmlFor="userType" className="form-label">Type d'utilisateur</label>
-                                <select
-                                    className="form-select"
-                                    id="userType"
-                                    value={userType}
-                                    onChange={(e) => setUserType(e.target.value)}
-                                    required
-                                >
-                                    <option value="user">Utilisateur</option>
-                                    <option value="propriétaire">Propriétaire</option>
-                                </select>
-                            </div>
-                            <div className="mb-3 form-check">
-                                <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="acceptCgu"
-                                    checked={acceptCgu}
-                                    onChange={(e) => setAcceptCgu(e.target.checked)}
-                                    required
-                                />
-                                <label className="form-check-label" htmlFor="acceptCgu">
-                                    J'ai lu et j'accepte les <a href="/cgu">CGU</a>
-                                </label>
-                            </div>
-                            <div className="mb-3 form-check">
-                                <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="acceptDataPolicy"
-                                    checked={acceptDataPolicy}
-                                    onChange={(e) => setAcceptDataPolicy(e.target.checked)}
-                                    required
-                                />
-                                <label className="form-check-label" htmlFor="acceptDataPolicy">
-                                    J'accepte que mes données soient collectées et traitées conformément à la politique de confidentialité
-                                </label>
-                            </div>
-                            <button className="btn btn-primary w-100" type="submit">S'inscrire</button>
-                            <div className="text-center mt-3">
-                                <Link to="/connexion">J'ai déjà un compte !</Link>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default Inscription;
+export default UserInscription;

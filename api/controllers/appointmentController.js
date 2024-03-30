@@ -37,9 +37,26 @@ exports.getAppointmentsByUserId = async (req, res) => {
             res.status(404).json({ message: "Pas de rendez vous en vue MR" });
         }
     } catch (error) {
-        res.status(500).json({ message: "Error retrieving appointments", error: error });
+        res.status(500).json({ message: "Error retrieving appointments", error: "Pas de rendez vous en vue MR" });
     }
 };    
+
+exports.getAppointmentsByCabinetId = async (req, res) => {
+    const { cabinet_id } = req.params; 
+
+    try {
+        const query = `SELECT * FROM Appointment WHERE cabinet_id = ?  ORDER BY appointment_date ASC`; 
+        const appointments = await db.query(query, [cabinet_id]);
+
+        if (appointments.length > 0) {
+            res.json(appointments);
+        } else {
+            res.status(404).json({ message: "Pas de rendez vous en vue MR" });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Error retrieving appointments", error: "Pas de rendez vous en vue MR" });
+    }
+};  
 
 exports.createAppointment = async (req, res) => {
     const { cabinet_id,owner_id, appointment_date, status, reason } = req.body;

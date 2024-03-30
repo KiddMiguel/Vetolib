@@ -13,7 +13,6 @@ const CabinetDetails = () => {
   const { user } = useAuth();
   
 
-  console.log(user);
   const handleVeterinary = () => {
     axios.get(`http://localhost:8000/cabinet/owner/${id}`)
       .then((response) => {
@@ -34,15 +33,12 @@ const CabinetDetails = () => {
     })
     .then((response) => {
       navigate('/appointments');
-      console.log(response);
     })
     .catch((error) => {
       console.log(error);
     });
   };
   
-
-  console.log(veterinaire);
 
   useEffect(() => {
     axios.get(`http://localhost:8000/cabinet/${id}`)
@@ -57,14 +53,13 @@ const CabinetDetails = () => {
 
 
 
-
     return (
         <div>
         
       <div className="bg-primary pt-2">
         <div className="d-flex container text-white">
           <div>
-          <img src="../../public/images/veto.jpg" width="20%" className='rounded-4' alt="" />
+          <img src={cabinet && cabinet.image} width="20%" className='rounded-4' alt="" />
 
             <h3>{cabinet && cabinet.cabinet_name} - {cabinet && cabinet.services_offered} {cabinet && cabinet.city}</h3>
             <div className='d-flex'>

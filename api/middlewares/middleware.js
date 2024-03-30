@@ -23,7 +23,6 @@ exports.authenticator = (req, res, next) => {
                 console.log(err); // Afficher l'erreur pour le débogage
                 res.status(401).json({ erreur: "Accès refusé" });
             } else {
-                // Token valide, continuer avec la requête
                 next();
             }
         });
@@ -35,6 +34,7 @@ exports.authenticator = (req, res, next) => {
 exports.isAdmin = (req, res, next) => {
     // Supposons que le token est envoyé dans le header d'autorisation comme 'Bearer [token]'
     const authHeader = req.headers.authorization;
+    
 
     if (authHeader) {
         const token = authHeader.split(' ')[1]; // Extraire le token du header
@@ -51,6 +51,28 @@ exports.isAdmin = (req, res, next) => {
 
             req.user = user; // Stocker les informations de l'utilisateur dans l'objet req pour un usage ultérieur
             next(); // Passer au prochain middleware si l'utilisateur est admin
+        });
+    } else {
+        res.status(401).json({ message: "Aucun token fourni. Authentification requise." });
+    }
+};
+exports.isPrpriétaire = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if (authHeader) {
+        const token = authHeader.split(' ')[1]; 
+
+        jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+            if (err) {
+                return res.status(403).json({ message: "Accès refusé." });
+            }
+
+            if (!['propriétaire', 'admin'].includes(user.role)) {
+                return res.status(403).json({ message: "Accès refusé. Réservé aux Propriétaire et Admin." });
+            }
+
+            req.user = user; 
+            next(); 
         });
     } else {
         res.status(401).json({ message: "Aucun token fourni. Authentification requise." });
