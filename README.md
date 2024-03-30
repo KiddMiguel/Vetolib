@@ -253,7 +253,6 @@ Voici quelques exemples d'insertions pour pré-remplir votre base de données av
 ```sql
 USE Vetolib;
 
---- INSERTION DES UTILISATEURS 
 
 INSERT INTO User (email, nom, prenom, image, password, phone, address, user_type)
 VALUES 
@@ -268,35 +267,34 @@ VALUES
 ('isabelle.robert@example.com', 'Robert', 'Isabelle', 'profile9.jpg', 'Pass1234!', '0655555547', '369 boulevard de l’Innovation, 75009 Paris', 'user'),
 ('jacques.richard@example.com', 'Richard', 'Jacques', 'profile10.jpg', 'Pass1234!', '0655555546', '481 rue du Futur, 75010 Paris', 'user');
 
---- INSERTION DES ANIMAUX 
+
 INSERT INTO Animal (owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit)
 VALUES 
-(2, 'Bella', 'Chien', 'Labrador', 'femelle', 3, 'bella.jpg', TRUE, '2023-03-01'),
-(2, 'Max', 'Chien', 'Berger Allemand', 'male', 5, 'max.jpg', TRUE, '2023-01-15'),
-(6, 'Luna', 'Chat', 'Siamois', 'femelle', 2, 'luna.jpg', FALSE, '2023-02-20'),
-(11, 'Oliver', 'Chat', 'Persan', 'male', 4, 'oliver.jpg', TRUE, '2023-04-05'),
-(5, 'Leo', 'Lapin', 'Mini Lop', 'male', 1, 'leo.jpg', FALSE, '2023-03-17'),
-(11, 'Milo', 'Chien', 'Beagle', 'male', 2, 'milo.jpg', TRUE, '2023-05-25'),
-(2, 'Charlie', 'Chat', 'Maine Coon', 'male', 3, 'charlie.jpg', TRUE, '2023-06-10'),
-(3, 'Daisy', 'Chien', 'Cocker Spaniel', 'femelle', 6, 'daisy.jpg', TRUE, '2023-07-22'),
-(11, 'Molly', 'Chat', 'British Shorthair', 'femelle', 4, 'molly.jpg', FALSE, '2023-08-30'),
-(5, 'Loki', 'Chien', 'Husky', 'male', 3, 'loki.jpg', TRUE, '2023-09-15');
+(2, 'Bella', 'Chien', 'Labrador', 'femelle', 3, 'https://www.woopets.fr/assets/img/001/244/1200x675/choisir-chien-japonais.jpg', TRUE, '2023-03-01'),
+(2, 'Max', 'Chien', 'Berger Allemand', 'male', 5, 'https://www.francebleu.fr/s3/cruiser-production/2024/01/ad705aba-0194-404b-8de9-b7c70f5bdced/1200x680_sc_maxstockworld419083.jpg', TRUE, '2023-01-15'),
+(12, 'Luna', 'Chat', 'Siamois', 'femelle', 2, 'https://www.la-spa.fr/app/app/uploads/2023/07/prendre-soin_duree-vie-chat.jpg', FALSE, '2023-02-20'),
+(11, 'Oliver', 'Chat', 'Persan', 'male', 4, 'https://mag.bullebleue.fr/sites/mag/files/styles/main_image_wider/public/img/articles/chat/comment-punir-son-chat.jpg?h=ab3fdeda&itok=hZ2HW7Nm', TRUE, '2023-04-05'),
+(5, 'Leo', 'Lapin', 'Mini Lop', 'male', 1, 'https://www.wanimo.com/veterinaire/wp-content/uploads/2015/07/images_articles_lapin_lapin-regarde@2x.jpg', FALSE, '2023-03-17'),
+(11, 'Milo', 'Chien', 'Beagle', 'male', 2, 'https://www.assuropoil.fr/wp-content/uploads/2023/08/portrait-dun-labrador-noir.jpeg', TRUE, '2023-05-25'),
+(2, 'Charlie', 'Chat', 'Maine Coon', 'male', 3, 'https://cdn.shopify.com/s/files/1/0490/8384/2713/files/2.-Le-chat-Bengal-le-leopard_600x600.jpg?v=1672839840', TRUE, '2023-06-10'),
+(12, 'Daisy', 'Chien', 'Cocker Spaniel', 'femelle', 6, 'https://franklinpetfood.com/cdn/shop/articles/1000x595_VISUELS-BLOG_CHIEN-AGRESSIF_1024x1024.jpg?v=1695113354', TRUE, '2023-07-22'),
+(11, 'Molly', 'Chat', 'British Shorthair', 'femelle', 4, 'https://feelloo.com/wp-content/uploads/2019/10/jeune-chat-pexels-104827-900x598.jpeg', FALSE, '2023-08-30'),
+(5, 'Loki', 'Chien', 'Husky', 'male', 3, 'https://mag.bullebleue.fr/sites/mag/files/styles/main_image_wider/public/img/articles/chien/quelle-est-esperance-vie-chiens.jpg?h=1c010f92&itok=m9cTHaRu', TRUE, '2023-09-15');
 
 
----- INSERTION DE CABINET
 
 INSERT INTO Cabinet (cabinet_name, owner_id, address, city, phone_number, email, image, is_available, opening_hours, services_offered)
 VALUES 
-('Clinique Vétérinaire des Lys', 1, '12 Rue des Fleurs', 'Paris', '0123456789', 'lys.vet@example.com', 'cabinet1.jpg', TRUE, '08:00-18:00', 'Consultation, Vaccination, Chirurgie'),
-('Centre de Soin Animalier du Marais', 2, '35 Rue des Archives', 'Paris', '0123456798', 'marais.soin@example.com', 'cabinet2.jpg', TRUE, '09:00-17:00', 'Urgences, Soins dentaires, Toilettage'),
-('Le Refuge des Animaux', 3, '47 Avenue des Animaux', 'Lyon', '0123456797', 'refuge.animaux@example.com', 'cabinet3.jpg', TRUE, '10:00-19:00', 'Adoption, Stérilisation, Education'),
-('La Maison des Chiens et Chats', 4, '58 Boulevard des Compagnons', 'Marseille', '0123456796', 'maison.chienschats@example.com', 'cabinet4.jpg', FALSE, '09:00-17:00', 'Hébergement, Alimentation, Soins généraux'),
-('Paradis des Félins', 5, '75 Rue du Chat Qui Dort', 'Toulouse', '0123456795', 'felins.paradis@example.com', 'cabinet5.jpg', TRUE, '08:00-20:00', 'Consultation féline, Toilettage, Comportement'),
-('Santé Canine Centre', 6, '82 Route de la Truffe', 'Nice', '0123456794', 'sante.canine@example.com', 'cabinet6.jpg', TRUE, '07:00-19:00', 'Diététique, Soins sportifs, Rééducation'),
-('Clinique des Oiseaux', 7, '103 Volière Avenue', 'Strasbourg', '0123456793', 'clinique.oiseaux@example.com', 'cabinet7.jpg', TRUE, '09:00-18:00', 'Soins aviaires, Ailes et plumes, Identification'),
-('Centre Aquatique Vétérinaire', 8, '27 Allée des Coraux', 'Bordeaux', '0123456792', 'aqua.vet@example.com', 'cabinet8.jpg', TRUE, '11:00-21:00', 'Soins marins, Aquarium, Réadaptation'),
-('Refuge des Reptiles', 9, '56 Terrarium Terrasse', 'Nantes', '0123456791', 'reptiles.refuge@example.com', 'cabinet9.jpg', FALSE, '10:00-18:00', 'Soins pour reptiles, Adoption, Sensibilisation'),
-('Clinique Équine de la Plaine', 10, '88 Chemin des Cavaliers', 'Montpellier', '0123456790', 'equine.plaine@example.com', 'cabinet10.jpg', TRUE, '06:00-22:00', 'Soins équins, Pension, Entraînement');
+('Clinique Vétérinaire des Lys', 1, '12 Rue des Fleurs', 'Paris', '0123456789', 'lys.vet@example.com', 'https://www.veterinaireleslilas.com/wp-content/uploads/sites/2/2019/02/cabinet-lilas-1.jpg', TRUE, '08:00-18:00', 'Consultation, Vaccination, Chirurgie'),
+('Centre de Soin Animalier du Marais', 2, '35 Rue des Archives', 'Paris', '0123456798', 'marais.soin@example.com', 'https://vetovie.com/wp-content/uploads/2012/07/074-bd.jpg', TRUE, '09:00-17:00', 'Urgences, Soins dentaires, Toilettage'),
+('Le Refuge des Animaux', 3, '47 Avenue des Animaux', 'Lyon', '0123456797', 'refuge.animaux@example.com', 'https://veterinaire-vieillevigne.fr/wp-content/uploads/2022/07/P1023239-copie.jpg', TRUE, '10:00-19:00', 'Adoption, Stérilisation, Education'),
+('La Maison des Chiens et Chats', 4, '58 Boulevard des Compagnons', 'Marseille', '0123456796', 'maison.chienschats@example.com', 'https://emeraudevet.fr/wp-content/uploads/2022/08/P1023807-1-scaled.jpg', FALSE, '09:00-17:00', 'Hébergement, Alimentation, Soins généraux'),
+('Paradis des Félins', 5, '75 Rue du Chat Qui Dort', 'Toulouse', '0123456795', 'felins.paradis@example.com', 'https://veterinaire-canetenroussillon.com/wp-content/uploads/2022/11/facade-cabinet-veterinaire-1-modifie-1.png', TRUE, '08:00-20:00', 'Consultation féline, Toilettage, Comportement'),
+('Santé Canine Centre', 6, '82 Route de la Truffe', 'Nice', '0123456794', 'sante.canine@example.com', 'https://lh3.googleusercontent.com/proxy/FezImJpocCTtT5q2pyIIOH-hV1XzqOBBSu99EAMK5XQ6CtnLRHTKjxyrrRsdiO93iVuou5xSDgjg4vZVIsZY3xK4bdGt7STLyKhR3DRXcVvkiE1CWKQZ', TRUE, '07:00-19:00', 'Diététique, Soins sportifs, Rééducation'),
+('Clinique des Oiseaux', 7, '103 Volière Avenue', 'Strasbourg', '0123456793', 'clinique.oiseaux@example.com', 'https://www.anicura.fr/cdn-cgi/image/f=auto,q=60,fit=cover,w=1080,h=720,g=auto,sharpen=1/AdaptiveImages/optimizely/57511ea1-36a8-4ed2-b36c-f0358ca448eb/facade_cabinet_lorrainevet_dombasle.jpeg?stamp=9541909d5c12ac5ca3c994644528cf1bd409b50d', TRUE, '09:00-18:00', 'Soins aviaires, Ailes et plumes, Identification'),
+('Centre Aquatique Vétérinaire', 8, '27 Allée des Coraux', 'Bordeaux', '0123456792', 'aqua.vet@example.com', 'https://cliniquedelapasserelle.com/wp-content/uploads/2018/12/v%C3%A9t%C3%A9rinaire-v%C3%A9to-grigny-givors-chasse-urgence-animaux-animal-docteur.jpg', TRUE, '11:00-21:00', 'Soins marins, Aquarium, Réadaptation'),
+('Refuge des Reptiles', 9, '56 Terrarium Terrasse', 'Nantes', '0123456791', 'reptiles.refuge@example.com', 'https://veterinairetibourgere.fr/wp-content/uploads/2020/02/IMG_0783.jpg', FALSE, '10:00-18:00', 'Soins pour reptiles, Adoption, Sensibilisation'),
+('Clinique Équine de la Plaine', 10, '88 Chemin des Cavaliers', 'Montpellier', '0123456790', 'equine.plaine@example.com', 'https://local-fr-public.s3.eu-west-3.amazonaws.com/prod/webtool/userfiles/36331/Bandeau3.jpg', TRUE, '06:00-22:00', 'Soins équins, Pension, Entraînement');
 
 ```
 
