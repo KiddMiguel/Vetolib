@@ -137,12 +137,12 @@ END$$
 
 DELIMITER $$
 
-CREATE PROCEDURE `AddAnimal`(IN _owner_id INT, IN _animal_name VARCHAR(50), IN _animal_type VARCHAR(50), IN _race VARCHAR(50), IN _sex ENUM('male', 'femelle', 'inconnu'), IN _age INT, IN _image LONGTEXT(50000), IN _is_vaccinated BOOLEAN, IN _last_visit DATE)
+CREATE PROCEDURE `AddAnimal`(IN _owner_id INT, IN _animal_name VARCHAR(50), IN _animal_type VARCHAR(50), IN _race VARCHAR(50), IN _sex ENUM('male', 'femelle', 'inconnu'), IN _age INT, IN _image LONGTEXT, IN _is_vaccinated BOOLEAN, IN _last_visit DATE)
 BEGIN
     INSERT INTO Animal (owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit, created_at) VALUES (_owner_id, _animal_name, _animal_type, _race, _sex, _age, _image, _is_vaccinated, _last_visit, CURRENT_TIMESTAMP);
 END$$
 
-CREATE PROCEDURE `EditAnimal`(IN _animal_id INT, IN _owner_id INT, IN _animal_name VARCHAR(50), IN _animal_type VARCHAR(50), IN _race VARCHAR(50), IN _sex ENUM('male', 'femelle', 'inconnu'), IN _age INT, IN _image LONGTEXT(50000), IN _is_vaccinated BOOLEAN, IN _last_visit DATE)
+CREATE PROCEDURE `EditAnimal`(IN _animal_id INT, IN _owner_id INT, IN _animal_name VARCHAR(50), IN _animal_type VARCHAR(50), IN _race VARCHAR(50), IN _sex ENUM('male', 'femelle', 'inconnu'), IN _age INT, IN _image LONGTEXT, IN _is_vaccinated BOOLEAN, IN _last_visit DATE)
 BEGIN
     UPDATE Animal SET owner_id = _owner_id, animal_name = _animal_name, animal_type = _animal_type, race = _race, sex = _sex, age = _age, image = _image, is_vaccinated = _is_vaccinated, last_visit = _last_visit WHERE animal_id = _animal_id;
 END$$
@@ -170,7 +170,7 @@ BEGIN
     SELECT * FROM Cabinet ORDER BY `cabinet`.`cabinet_id` DESC;
 END$$
 
-CREATE PROCEDURE `AddCabinet`(IN _cabinet_name VARCHAR(100), IN _owner_id INT, IN _address VARCHAR(255), IN _city VARCHAR(100), IN _phone_number VARCHAR(20), IN _image LONGTEXT(50000), IN _is_available BOOLEAN)
+CREATE PROCEDURE `AddCabinet`(IN _cabinet_name VARCHAR(100), IN _owner_id INT, IN _address VARCHAR(255), IN _city VARCHAR(100), IN _phone_number VARCHAR(20), IN _image LONGTEXT, IN _is_available BOOLEAN)
 BEGIN
     INSERT INTO Cabinet (cabinet_name, owner_id, address, city, phone_number, image, is_available) VALUES (_cabinet_name, _owner_id, _address, _city, _phone_number, _image, _is_available);
 END$$
@@ -180,7 +180,7 @@ BEGIN
     SELECT * FROM Cabinet WHERE cabinet_id = _cabinet_id;
 END$$
 
-CREATE PROCEDURE `EditCabinet`(IN _cabinet_id INT, IN _cabinet_name VARCHAR(100), IN _owner_id INT, IN _address VARCHAR(255), IN _city VARCHAR(100), IN _phone_number VARCHAR(20), IN _image LONGTEXT(50000), IN _is_available BOOLEAN)
+CREATE PROCEDURE `EditCabinet`(IN _cabinet_id INT, IN _cabinet_name VARCHAR(100), IN _owner_id INT, IN _address VARCHAR(255), IN _city VARCHAR(100), IN _phone_number VARCHAR(20), IN _image LONGTEXT, IN _is_available BOOLEAN)
 BEGIN
     UPDATE Cabinet SET cabinet_name = _cabinet_name, owner_id = _owner_id, address = _address, city = _city, phone_number = _phone_number, image = _image, is_available = _is_available WHERE cabinet_id = _cabinet_id;
 END$$
