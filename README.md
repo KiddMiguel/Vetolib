@@ -147,12 +147,10 @@ BEGIN
     UPDATE Animal SET owner_id = _owner_id, animal_name = _animal_name, animal_type = _animal_type, race = _race, sex = _sex, age = _age, image = _image, is_vaccinated = _is_vaccinated, last_visit = _last_visit WHERE animal_id = _animal_id;
 END$$
 
-
 CREATE PROCEDURE `GetAnimalById`(IN _animal_id INT)
 BEGIN
     SELECT * FROM animal WHERE animal_id = _animal_id;
 END$$
-
 
 CREATE PROCEDURE `DeleteAnimal`(IN _animal_id INT)
 BEGIN
