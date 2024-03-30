@@ -12,7 +12,7 @@ const Header = () => {
     <Navbar collapseOnSelect className="bg-white fixed-top">
       <Container fluid className="d-flex">
         <Navbar.Brand>
-          <Link to="/cabinet" className="nav-link">
+          <Link to={ user ? "/cabinet": "/"} className="nav-link">
             <img
               src="../../public/images/logo-text.png"
               width="50%"

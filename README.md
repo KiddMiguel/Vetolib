@@ -10,6 +10,8 @@ Le projet est divisé en trois dossiers principaux :
 - `api` : Contient le backend de l'application, qui fournit les endpoints API pour les opérations CRUD sur la base de données.
 - `frontend` : Contient le code du frontend de l'application, utilisé par les clients pour interagir avec les services de VetoLib.
 
+Rendez vous aussi dans le dossier `admin` pour pouvoir lire le readme.md qui vous sera utile pour des tests.
+
 ## Installation
 
 Pour configurer le projet VetoLib, suivez les étapes pour chaque partie du projet.
@@ -53,6 +55,7 @@ Vous trouverez ci-dessous les scripts nécessaires pour créer la base de donné
 ### Création de la base de données
 
 ```sql
+DROP DATABASE IF EXISTS Vetolib;
 CREATE DATABASE Vetolib;
 USE Vetolib;
 
@@ -115,13 +118,15 @@ CREATE TABLE Appointment (
     notes TEXT,
     FOREIGN KEY (cabinet_id) REFERENCES Cabinet(cabinet_id),
     FOREIGN KEY (animal_id) REFERENCES Animal(animal_id),
-    FOREIGN KEY (owner_id) REFERENCES USER(user_id),
+    FOREIGN KEY (owner_id) REFERENCES USER(user_id)
 );    
 ```
 
 ### Procédures Stockées
 
 ```sql
+
+USE Vetolib;
 --  Création des Procédures de la table Animal
 DELIMITER $$
 
@@ -205,7 +210,7 @@ CREATE PROCEDURE `CreateUser`(
 )
 BEGIN
     INSERT INTO User (email, password, nom, prenom, user_type, created_at) 
-    VALUES (_email, _nom, _prenom, _user_type, CURRENT_TIMESTAMP);
+    VALUES (_email, _password, _nom, _prenom, _user_type, CURRENT_TIMESTAMP);
 END$$
 
 CREATE PROCEDURE `GetUserById`(IN _user_id INT)
@@ -245,7 +250,52 @@ DELIMITER ;
 ### Inserts de la Base de Données
 Voici quelques exemples d'insertions pour pré-remplir votre base de données avec des données initiales.
 
+```sql
 
-### Contribution
-Pour contribuer à ce projet, veuillez suivre les bonnes pratiques de développement et soumettre une pull request avec vos modifications.
+--- INSERTION DES UTILISATEURS 
+
+INSERT INTO User (email, nom, prenom, image, password, phone, address, user_type)
+VALUES 
+('alexandre.dupont@example.com', 'Dupont', 'Alexandre', 'profile1.jpg', 'Pass1234!', '0655555555', '123 rue de la Liberté, 75001 Paris', 'user'),
+('beatrice.leroy@example.com', 'Leroy', 'Béatrice', 'profile2.jpg', 'Pass1234!', '0655555554', '456 avenue de la République, 75002 Paris', 'propriétaire'),
+('charles.moreau@example.com', 'Moreau', 'Charles', 'profile3.jpg', 'Pass1234!', '0655555553', '789 boulevard de l’Égalité, 75003 Paris', 'propriétaire'),
+('danielle.bernard@example.com', 'Bernard', 'Danielle', 'profile4.jpg', 'Pass1234!', '0655555552', '321 rue de la Fraternité, 75004 Paris', 'user'),
+('emmanuel.dubois@example.com', 'Dubois', 'Emmanuel', 'profile5.jpg', 'Pass1234!', '0655555551', '654 avenue de la Révolution, 75005 Paris', 'user'),
+('fanny.fontaine@example.com', 'Fontaine', 'Fanny', 'profile6.jpg', 'Pass1234!', '0655555550', '987 boulevard du Progrès, 75006 Paris', 'user'),
+('gerard.martin@example.com', 'Martin', 'Gérard', 'profile7.jpg', 'Pass1234!', '0655555549', '135 rue de l’Industrie, 75007 Paris', 'propriétaire'),
+('helene.petit@example.com', 'Petit', 'Hélène', 'profile8.jpg', 'Pass1234!', '0655555548', '246 avenue de l’Information, 75008 Paris', 'propriétaire'),
+('isabelle.robert@example.com', 'Robert', 'Isabelle', 'profile9.jpg', 'Pass1234!', '0655555547', '369 boulevard de l’Innovation, 75009 Paris', 'user'),
+('jacques.richard@example.com', 'Richard', 'Jacques', 'profile10.jpg', 'Pass1234!', '0655555546', '481 rue du Futur, 75010 Paris', 'user');
+
+--- INSERTION DES ANIMAUX 
+INSERT INTO Animal (owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit)
+VALUES 
+(2, 'Bella', 'Chien', 'Labrador', 'femelle', 3, 'bella.jpg', TRUE, '2023-03-01'),
+(2, 'Max', 'Chien', 'Berger Allemand', 'male', 5, 'max.jpg', TRUE, '2023-01-15'),
+(6, 'Luna', 'Chat', 'Siamois', 'femelle', 2, 'luna.jpg', FALSE, '2023-02-20'),
+(11, 'Oliver', 'Chat', 'Persan', 'male', 4, 'oliver.jpg', TRUE, '2023-04-05'),
+(5, 'Leo', 'Lapin', 'Mini Lop', 'male', 1, 'leo.jpg', FALSE, '2023-03-17'),
+(11, 'Milo', 'Chien', 'Beagle', 'male', 2, 'milo.jpg', TRUE, '2023-05-25'),
+(2, 'Charlie', 'Chat', 'Maine Coon', 'male', 3, 'charlie.jpg', TRUE, '2023-06-10'),
+(3, 'Daisy', 'Chien', 'Cocker Spaniel', 'femelle', 6, 'daisy.jpg', TRUE, '2023-07-22'),
+(11, 'Molly', 'Chat', 'British Shorthair', 'femelle', 4, 'molly.jpg', FALSE, '2023-08-30'),
+(5, 'Loki', 'Chien', 'Husky', 'male', 3, 'loki.jpg', TRUE, '2023-09-15');
+
+
+---- INSERTION DE CABINET
+
+INSERT INTO Cabinet (cabinet_name, owner_id, address, city, phone_number, email, image, is_available, opening_hours, services_offered)
+VALUES 
+('Clinique Vétérinaire des Lys', 1, '12 Rue des Fleurs', 'Paris', '0123456789', 'lys.vet@example.com', 'cabinet1.jpg', TRUE, '08:00-18:00', 'Consultation, Vaccination, Chirurgie'),
+('Centre de Soin Animalier du Marais', 2, '35 Rue des Archives', 'Paris', '0123456798', 'marais.soin@example.com', 'cabinet2.jpg', TRUE, '09:00-17:00', 'Urgences, Soins dentaires, Toilettage'),
+('Le Refuge des Animaux', 3, '47 Avenue des Animaux', 'Lyon', '0123456797', 'refuge.animaux@example.com', 'cabinet3.jpg', TRUE, '10:00-19:00', 'Adoption, Stérilisation, Education'),
+('La Maison des Chiens et Chats', 4, '58 Boulevard des Compagnons', 'Marseille', '0123456796', 'maison.chienschats@example.com', 'cabinet4.jpg', FALSE, '09:00-17:00', 'Hébergement, Alimentation, Soins généraux'),
+('Paradis des Félins', 5, '75 Rue du Chat Qui Dort', 'Toulouse', '0123456795', 'felins.paradis@example.com', 'cabinet5.jpg', TRUE, '08:00-20:00', 'Consultation féline, Toilettage, Comportement'),
+('Santé Canine Centre', 6, '82 Route de la Truffe', 'Nice', '0123456794', 'sante.canine@example.com', 'cabinet6.jpg', TRUE, '07:00-19:00', 'Diététique, Soins sportifs, Rééducation'),
+('Clinique des Oiseaux', 7, '103 Volière Avenue', 'Strasbourg', '0123456793', 'clinique.oiseaux@example.com', 'cabinet7.jpg', TRUE, '09:00-18:00', 'Soins aviaires, Ailes et plumes, Identification'),
+('Centre Aquatique Vétérinaire', 8, '27 Allée des Coraux', 'Bordeaux', '0123456792', 'aqua.vet@example.com', 'cabinet8.jpg', TRUE, '11:00-21:00', 'Soins marins, Aquarium, Réadaptation'),
+('Refuge des Reptiles', 9, '56 Terrarium Terrasse', 'Nantes', '0123456791', 'reptiles.refuge@example.com', 'cabinet9.jpg', FALSE, '10:00-18:00', 'Soins pour reptiles, Adoption, Sensibilisation'),
+('Clinique Équine de la Plaine', 10, '88 Chemin des Cavaliers', 'Montpellier', '0123456790', 'equine.plaine@example.com', 'cabinet10.jpg', TRUE, '06:00-22:00', 'Soins équins, Pension, Entraînement');
+
+```
 
