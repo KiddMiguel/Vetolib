@@ -251,6 +251,7 @@ DELIMITER ;
 Voici quelques exemples d'insertions pour pré-remplir votre base de données avec des données initiales.
 
 ```sql
+USE Vetolib;
 
 --- INSERTION DES UTILISATEURS 
 
