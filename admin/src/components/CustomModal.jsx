@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useLocation } from 'react-router-dom';
 
 function CustomModal({ title, body, onMainAction, mainActionButtonText, show, onHide }) {
+  const url = useLocation();
   return (
     <>
       <Modal
@@ -15,14 +17,16 @@ function CustomModal({ title, body, onMainAction, mainActionButtonText, show, on
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{body}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={onHide}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={onMainAction}>
-            {mainActionButtonText}
-          </Button>
-        </Modal.Footer>
+        {mainActionButtonText !== 'Enregistrer les changements' &&  (
+          <Modal.Footer>
+            <Button variant="secondary" onClick={onHide}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={onMainAction}>
+              {mainActionButtonText}
+            </Button>
+          </Modal.Footer>
+        )}
       </Modal>
     </>
   );

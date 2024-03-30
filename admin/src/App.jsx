@@ -5,9 +5,9 @@ import Header from "./components/Header";
 import { Route, Routes } from "react-router-dom";
 import Accueil from "./pages/accueil";
 import { useAuth } from "./utils/AuthContext";
-import Cabinet from "./pages/cabinet";
 import UserProfile from "./pages/user/userProfile";
-
+import EditCabinet from "./pages/cabinet/editCabinet";
+import Cabinet from "./pages/cabinet/cabinet";
 function App() {
   const { isAuthenticated, logout } = useAuth();
   const {user } = useAuth();
@@ -28,6 +28,7 @@ function App() {
             {(isAuthenticated ) && (
               <>
               <Route path="/cabinet" element={<Cabinet/>} />
+              <Route path="/cabinet/add" element={<EditCabinet/>} />
               <Route path="/user" element={<UserProfile  user = {user} />} />
               </>
             )}

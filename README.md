@@ -141,7 +141,7 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
 
         CREATE PROCEDURE `GetAllCabinets`()
         BEGIN
-            SELECT * FROM Cabinet;
+            SELECT * FROM Cabinet ORDER BY `cabinet`.`cabinet_id` DESC;
         END$$
 
         CREATE PROCEDURE `AddCabinet`(IN _cabinet_name VARCHAR(100), IN _owner_id INT, IN _address VARCHAR(255), IN _city VARCHAR(100), IN _phone_number VARCHAR(20), IN _image VARCHAR(100), IN _is_available BOOLEAN)
@@ -185,7 +185,7 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
         )
         BEGIN
             INSERT INTO User (email, password, nom, prenom, user_type, created_at) 
-            VALUES (_email, _password, _nom, _prenom, _user_type, CURRENT_TIMESTAMP);
+            VALUES (_email, _nom, _prenom, _user_type, CURRENT_TIMESTAMP);
         END$$
 
         CREATE PROCEDURE `GetUserById`(IN _user_id INT)
@@ -196,7 +196,6 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
         CREATE PROCEDURE `EditUser`(
             IN _user_id INT,
             IN _email VARCHAR(100),
-            IN _password VARCHAR(255),
             IN _nom VARCHAR(100),
             IN _prenom VARCHAR(100),
             IN _user_type ENUM('admin', 'propriétaire', 'user')
@@ -204,7 +203,6 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
         BEGIN
             UPDATE User 
             SET email = _email, 
-                password = _password, 
                 nom = _nom, 
                 prenom = _prenom,
                 user_type = _user_type

@@ -16,6 +16,7 @@ const TableauAdmin = ({ rowData, columnDefs }) => {
                 resizable={true}
                 rowSelection="multiple" 
                 suppressRowClickSelection = {true}
+                
             />
         </div>
         </div>
