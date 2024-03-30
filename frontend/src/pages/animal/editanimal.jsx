@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../utils/axios";
+import {useAuth} from "../../utils/AuthContext";
 
 const EditAnimal = () => {
+    const { user } = useAuth();
     const { id } = useParams();
     console.log('id', id);
     const [animalName, setAnimalName] = useState("");
@@ -47,7 +49,7 @@ const EditAnimal = () => {
             });
             if (response.status === 200) {
                 console.log("Animal details updated successfully");
-                // Add any additional logic or navigation here
+                navigate(`/detanimal/${id}`);
             } else {
                 console.error("Error updating animal details");
             }
@@ -98,7 +100,7 @@ const EditAnimal = () => {
                     <select
                         className="form-select"
                         id="floatingSelect"
-                        value={sex}
+                        value={sexe}
                         onChange={(e) => setSex(e.target.value)}
                         required
                     >
@@ -118,7 +120,7 @@ const EditAnimal = () => {
                     />
                     <label htmlFor="floatingInput">Age</label>
                 </div>
-                <button type="submit" style={{ display: 'block', width: '100%', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Ajouter</button>
+                <button type="submit" style={{ display: 'block', width: '100%', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Modifier</button>
             </form>
         </div>
     );

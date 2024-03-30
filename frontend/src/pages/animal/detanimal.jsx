@@ -16,7 +16,7 @@ const DetAnimal = () => {
     const handleDelete = () => {
         axios.delete(`http://localhost:8000/animal/${animalId}`)
             .then(() => {
-                navigate('/animal');
+                navigate(`/animal/owner/${user.user_id}`);
             })
             .catch((error) => {
                 console.error('Error deleting animal:', error);
@@ -37,21 +37,20 @@ const DetAnimal = () => {
 
     return (
         <div className="hero min-h-screen bg-base-100 flex justify-center items-center">
-            <div className="hero-content flex-col lg:flex-row-reverse">
-                <img src="../../../public/images/Bongo.jpg" alt="Animal" className="max-w-sm rounded-lg shadow-2xl" />
+            <div className="hero-content flex-col lg:flex-row-reverse"  style={{textAlign:"center",}}>
+                <img src="../../../public/images/Bongo.jpg" alt="Animal" className="max-w-sm rounded-lg shadow-2xl"  style={{width:200}} />
                 <div>
                     {animal && (
                         <div>
                             <h1 className="text-5xl font-bold">{animal.animal_name}</h1>
-                            <p><strong>Propriétaire:</strong>{user.nom} {user.prenom}</p>
-                            <p><strong>Cabinet: </strong>{animal.ca_id}</p>
-                            <p><strong>Race:</strong>{animal.race}</p>
-                            <p><strong>Âge:</strong>{animal.age}</p>
-                            <p><strong>Type d'animal:</strong>{animal.animal_type}</p>
-                            <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+                            <p><strong>Propriétaire:</strong> {user.nom} {user.prenom}</p>
+                            <p><strong>Cabinet: </strong> {animal.ca_id}</p>
+                            <p><strong>Race:</strong> {animal.race}</p>
+                            <p><strong>Âge:</strong> {animal.age}</p>
+                            <p><strong>Type d'animal:</strong> {animal.animal_type}</p>
                             <div className="flex space-x-4">
-                                <button onClick={handleEdit} className="btn btn-ghost">Edit</button>
-                                <button onClick={handleDelete} className="btn btn-danger">Delete</button>
+                                <button onClick={ () => handleEdit} className="btn btn-ghost">Edit</button>
+                                <button onClick={ () =>handleDelete} className="btn btn-danger">Delete</button>
                             </div>
                         </div>
                     )}
