@@ -49,12 +49,8 @@ npm run dev
 # Base de données
 Vous trouverez ci-dessous les scripts nécessaires pour créer la base de données et ses tables.
 
+
 ### Création de la base de données
-
-```sql
-```
-
-### Procédures Stockées
 
     ```sql
         CREATE DATABASE Vetolib;
@@ -124,7 +120,8 @@ Vous trouverez ci-dessous les scripts nécessaires pour créer la base de donné
     ```
 
 ### Procédures Stockées
-    ```sql
+
+```sql
         --  Création des Procédures de la table Animal
         DELIMITER $$
 
@@ -243,7 +240,7 @@ Vous trouverez ci-dessous les scripts nécessaires pour créer la base de donné
         END$$
 
         DELIMITER ;
-    ```
+```
 
 ### Inserts de la Base de Données
 Voici quelques exemples d'insertions pour pré-remplir votre base de données avec des données initiales.
