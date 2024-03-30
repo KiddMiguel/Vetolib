@@ -4,14 +4,14 @@ import TableauAdmin from "../../components/TableauAdmin";
 import ModifyButton from "../../components/ModifyButton";
 import DeleteButton from "../../components/DeleteButton";
 import CustomModal from "../../components/CustomModal";
-import EditCabinet from "./editCabinet";
+import EditAnimal from "./editAnimal";
 import { Link, useNavigate } from "react-router-dom";
 import { Snackbar } from "@mui/material";
 import MuiAlert from "@mui/material/Alert";
 
-const Cabinet = () => {
-  const [cabinets, setCabinets] = useState([]);
-  const [selectedCabinet, setSelectedCabinet] = useState(null);
+const Animal = () => {
+  const [animals, setAnimals] = useState([]);
+  const [selectedAnimal, setSelectedAnimal] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const navigate = useNavigate();
   const [actionType, setActionType] = useState("");
@@ -22,59 +22,57 @@ const Cabinet = () => {
   });
 
   useEffect(() => {
-    const fetchCabinets = async () => {
+    const fetchAnimals = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/cabinet");
-        setCabinets(response.data);
+        const response = await axios.get("http://localhost:8000/animal");
+        setAnimals(response.data);
       } catch (error) {
         setSubmitEchec(true);
-        console.error("Erreur lors de la récupération des cabinets:", error);
+        console.error("Erreur lors de la récupération des Animals:", error);
       }
     };
 
-    fetchCabinets();
+    fetchAnimals();
   }, []);
 
-  const handleModify = (cabinet) => {
-    setSelectedCabinet(cabinet);
+  const handleModify = (animal) => {
+    setSelectedAnimal(animal);
     setActionType("modify");
     setModalShow(true);
   };
 
-  const handleDelete = (cabinet) => {
-    setSelectedCabinet(cabinet);
+  const handleDelete = (animal) => {
+    setSelectedAnimal(animal);
     setActionType("delete");
     setModalShow(true);
   };
 
   const handleCloseModal = () => {
     setModalShow(false);
-    setSelectedCabinet(null);
+    setSelectedAnimal(null);
     setActionType("");
   };
 
-  const handleUpdateCabinet = (updatedCabinet) => {
-    const updatedCabinets = cabinets.map((c) => {
-      if (c.cabinet_id === updatedCabinet.cabinet_id) {
-        return updatedCabinet;
+  const handleUpdateAnimal = (updatedAnimal) => {
+    const updatedAnimals = animals.map((c) => {
+      if (c.animal_id === updatedAnimal.animal_id) {
+        return updatedAnimal;
       }
       return c;
     });
-    setCabinets(updatedCabinets);
+    setAnimals(updatedAnimals);
     handleCloseModal();
-    navigate(0);
   };
-
   const handleConfirmDelete = async () => {
     try {
       await axios.delete(
-        `http://localhost:8000/cabinet/${selectedCabinet.cabinet_id}`
+        `http://localhost:8000/animal/${selectedAnimal.animal_id}`
       );
-      const response = await axios.get("http://localhost:8000/cabinet");
-      setCabinets(response.data);
+      const response = await axios.get("http://localhost:8000/animal");
+      setAnimals(response.data);
       setSubmitSuccess(true);
     } catch (error) {
-      console.error("Erreur lors de la suppression du cabinet:", error);
+      console.error("Erreur lors de la suppression du Animal:", error);
     }
 
     handleCloseModal();
@@ -96,7 +94,7 @@ const Cabinet = () => {
   const columnDefs = [
     {
       headerName: "ID",
-      field: "cabinet_id",
+      field: "animal_id",
       sortable: true,
       hide: true,
       filter: true,
@@ -112,16 +110,17 @@ const Cabinet = () => {
       headerCheckboxSelection: true,
       cellRenderer: imageRenderer,
     },
-    { headerName: "Nom", field: "cabinet_name", sortable: true, filter: true },
-    { headerName: "Email", field: "email", sortable: true, filter: true },
+    { headerName: "Nom", field: "animal_name", sortable: true, filter: true },
+    { headerName: "Type", field: "animal_type", sortable: true, filter: true },
+    { headerName: "Race", field: "race", sortable: true, filter: true },
+    { headerName: "Sex", field: "sex", sortable: true, filter: true },
+    { headerName: "Age", field: "age", sortable: true, filter: true },
     {
-      headerName: "Téléphone",
-      field: "phone_number",
+      headerName: "Dernière visite",
+      field: "last_visit",
       sortable: true,
       filter: true,
     },
-    { headerName: "Ville", field: "city", sortable: true, filter: true },
-    { headerName: "Adresse", field: "address", sortable: true, filter: true },
     {
       headerName: "Modifier",
       cellRenderer: (params) => (
@@ -147,36 +146,35 @@ const Cabinet = () => {
     setSubmitSuccess(false);
     setSubmitEchec(false);
   };
+
   return (
     <>
       <div className="container-fluid">
         <div className="d-flex">
           <h3 className="text-start ms-3 mt-5 text-primary">
-            Liste des Cabinets
+            Liste des Animaux
           </h3>
-          <Link className="nav-link" to="/cabinet/add">
+          <Link className="nav-link" to="/animal/add">
             <button className="btn btn-success btn-sm ms-3 mt-5">
-              Ajouter un cabinet
+              Ajouter un animal
             </button>
           </Link>
         </div>
       </div>
       <hr />
-      <TableauAdmin rowData={cabinets} columnDefs={columnDefs} />
+      <TableauAdmin rowData={animals} columnDefs={columnDefs} />
       <CustomModal
         show={modalShow}
         onHide={handleCloseModal}
-        title={
-          actionType === "modify" ? "Modifier Cabinet" : "Supprimer Cabinet"
-        }
+        title={actionType === "modify" ? "Modifier Animal" : "Supprimer Animal"}
         body={
           actionType === "modify" ? (
-            <EditCabinet
-              cabinetId={selectedCabinet?.cabinet_id}
-              onUpdate={handleUpdateCabinet}
+            <EditAnimal
+              animalId={selectedAnimal?.animal_id}
+              onUpdate={handleUpdateAnimal}
             />
           ) : (
-            "Êtes-vous sûr de vouloir supprimer ce cabinet ?"
+            "Êtes-vous sûr de vouloir supprimer ce Animal ?"
           )
         }
         onMainAction={actionType === "modify" ? () => {} : handleConfirmDelete}
@@ -184,7 +182,6 @@ const Cabinet = () => {
           actionType === "modify" ? "Enregistrer les changements" : "Supprimer"
         }
       />
-
       <Snackbar
         open={submitSuccess}
         autoHideDuration={6000}
@@ -195,7 +192,7 @@ const Cabinet = () => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          Cabiner supprimé avec succès !
+          animal supprimé avec succès !
         </Alert>
       </Snackbar>
 
@@ -216,4 +213,4 @@ const Cabinet = () => {
   );
 };
 
-export default Cabinet;
+export default Animal;

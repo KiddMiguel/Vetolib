@@ -60,9 +60,9 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
             race VARCHAR(50),
             sex ENUM('male', 'femelle', 'inconnu'),
             age INT,
-            image VARCHAR(100),
+            image LONGTEXT,
             is_vaccinated BOOLEAN,
-            last_visit DATE,
+            last_visit VARCHAR(50),
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP, 
             FOREIGN KEY (owner_id) REFERENCES User(user_id)
         );
@@ -76,7 +76,7 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
             city VARCHAR(100) NOT NULL,
             phone_number VARCHAR(20) NOT NULL,
             email VARCHAR(100), 
-            image VARCHAR(100),
+            image LONGTEXT,
             is_available BOOLEAN NOT NULL,
             opening_hours VARCHAR(255), 
             services_offered TEXT, 
@@ -107,7 +107,7 @@ Vetolib utilise MySQL comme système de gestion de base de données. Voici comme
 
         CREATE PROCEDURE `GetAllAnimals`()
         BEGIN
-            SELECT * FROM animal;
+            SELECT * FROM animal ORDER BY animal.animal_id;
         END$$
 
         DELIMITER $$

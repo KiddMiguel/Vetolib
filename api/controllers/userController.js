@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 exports.getAllUsers = async (req, res) => {
     try {
         const resultat = await db.query("CALL GetAllUsers()");
-        console.log(resultat);
         res.status(200).json(resultat[0]);
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la récupération des utilisateurs", error });
@@ -40,7 +39,6 @@ exports.getUserById = async (req, res) => {
 
     try {
         const resultat = await db.query("CALL GetUserById(?)", [id]);
-        console.log(resultat)
         if (resultat[0].length > 0) {
             res.status(200).json(resultat[0][0]);
         } else {
@@ -80,8 +78,10 @@ exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
         const result = await db.query('CALL LoginUser(?)', [email]);
-
         const users = result[0];
+        if(users.length > 1) {
+            return res.status(401).json({ error: "Désolé il existe déja un email à ce nom lors que vous éssayer de vous connectez désolé pour ça !" });
+        }
         if (users.length == 0) {
             return res.status(401).json({ error: "Utilisateur non existant" });
         }

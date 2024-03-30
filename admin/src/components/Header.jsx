@@ -30,6 +30,9 @@ const Header = () => {
               <NavLink to="/cabinet" className="nav-link me-5 text-primary">
               Cabinets
               </NavLink>
+              <NavLink to="/animal" className="nav-link me-5 text-primary">
+              Animaux
+              </NavLink>
         
 
               <Dropdown className="me-5 pe-3">

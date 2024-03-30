@@ -27,13 +27,17 @@ console.log("user ici : ",user);
     return (
          <div className='container' style={{height: "90vh"}}>
         <div className='row' style={{overflow : "auto", height : "100%"}}>
-            {appointments.map((appointment) => (
+
+
+            {
+            appointments.length !== 0  ?
+            appointments.map((appointment) => (
                 <CardCabinet
                 className='col-7'
                     key={appointment.id}
                     appointment={appointment} 
                 />
-            ))}
+            )) : <h1>Vous n'avez pas de rendez-vous</h1>}
         </div>
         </div>
     );

@@ -12,6 +12,7 @@ import {
   Switch,
 } from "@mui/material";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import MuiAlert from '@mui/material/Alert';
 
 function EditCabinet({ cabinetId, onUpdate }) {
   const [cabinetData, setCabinetData] = useState({
@@ -27,6 +28,9 @@ function EditCabinet({ cabinetId, onUpdate }) {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const navigate = useNavigate();
 
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
   const url = useLocation();
   useEffect(() => {
     const fetchCabinetAndOwnersData = async () => {
@@ -169,14 +173,15 @@ function EditCabinet({ cabinetId, onUpdate }) {
       <Button type="submit" variant="contained" color="primary">
         Enregistrer les changements
       </Button>
-
-      <Snackbar
-        className="bg-success text-white"
+   <Snackbar
         open={submitSuccess}
-        autoHideDuration={5000}
-        onClose={handleCloseSnackbar}
-        message="Les modifications ont été enregistrées avec succès !"
-      />
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}>
+          <Alert onClose={handleCloseSnackbar} severity="success">
+          Les modifications ont été enregistrées avec succès !
+                  </Alert>
+        </Snackbar>
+
     </form>
   );
 }

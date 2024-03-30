@@ -8,6 +8,9 @@ import { useAuth } from "./utils/AuthContext";
 import UserProfile from "./pages/user/userProfile";
 import EditCabinet from "./pages/cabinet/editCabinet";
 import Cabinet from "./pages/cabinet/cabinet";
+import Animal from "./pages/animal/animal";
+import EditAnimal from "./pages/animal/editAnimal";
+import UserCreate from "./pages/user/userCreate";
 function App() {
   const { isAuthenticated, logout } = useAuth();
   const {user } = useAuth();
@@ -28,8 +31,11 @@ function App() {
             {(isAuthenticated ) && (
               <>
               <Route path="/cabinet" element={<Cabinet/>} />
+              <Route path="/animal" element={<Animal/>} />
               <Route path="/cabinet/add" element={<EditCabinet/>} />
+              <Route path="/animal/add" element={<EditAnimal/>} />
               <Route path="/user" element={<UserProfile  user = {user} />} />
+              <Route path="/user/create" element={<UserCreate />} />
               </>
             )}
 

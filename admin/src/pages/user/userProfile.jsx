@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -7,23 +7,34 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import axios from '../../utils/axios';
+import { Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+
 
 function UserProfile( user) {
   const userInfo = user.user;
-  const [formValues, setFormValues] = useState({
-    nom: userInfo.nom,
-    prenom: userInfo.prenom,
-    phone: userInfo.phone,
-    email: userInfo.email,
-    address: userInfo.address,
-    image : "",
-  });
+  const [formValues, setFormValues] = useState({});
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/user/${userInfo.user_id}`);
+      setFormValues(response.data);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des données:", error);
+    }
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.put(`http://localhost:8000/user/${userInfo.id}`, formValues)
+    console.log(formValues);
+    axios.put(`http://localhost:8000/user/${userInfo.user_id}`, formValues)
       .then((response) => {
-        console.log(response);
+        setSubmitSuccess(true);
       })
       .catch((error) => {
         console.error(error);
@@ -38,8 +49,16 @@ function UserProfile( user) {
     }));
   };
 
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const handleCloseSnackbar = () => {
+    setSubmitSuccess(false);
+  };
+
   return (
-    <div className="container pt-5 border rounded">
+    <div className="container pt-5 border rounded" style ={{height : "75vh"}}>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xl={3} lg={3} md={12} sm={12} xs={12}>
@@ -66,7 +85,7 @@ function UserProfile( user) {
                     <TextField
                       fullWidth
                       id="fullName"
-                      label="Nom"
+                      label={formValues.nom  ? "" : "Nom"}
                       variant="outlined"
                       value={formValues.nom}
                       onChange={handleChange}
@@ -77,40 +96,21 @@ function UserProfile( user) {
                       fullWidth
                       id="prenom"
                       type="text"
-                      label="Prenom"
+                      label={formValues.prenom  ? "" : "Prenom"}
                       variant="outlined"
                       value={formValues.prenom}
                       onChange={handleChange}
                     />
                   </Grid>
-                  <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                    <TextField
-                      fullWidth
-                      id="phone"
-                      label="Téléphone"
-                      variant="outlined"
-                      value={formValues.phone}
-                      onChange={handleChange}
-                    />
-                  </Grid>
+              
                   <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                     <TextField
                       fullWidth
                       id="email"
                       type="email"
-                      label="Email"
+                      label={formValues.email  ? "" : "Email"}
                       variant="outlined"
                       value={formValues.email}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                  <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
-                    <TextField
-                      fullWidth
-                      id="street"
-                      label="Addresse"
-                      variant="outlined"
-                      value={formValues.address}
                       onChange={handleChange}
                     />
                   </Grid>
@@ -123,6 +123,15 @@ function UserProfile( user) {
           </Grid>
         </Grid>
       </form>
+
+      <Snackbar
+        open={submitSuccess}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}>
+          <Alert onClose={handleCloseSnackbar} severity="success">
+          Votre Profil a été enregistré avec succès !
+        </Alert>
+        </Snackbar>
     </div>
   );
 }

@@ -3,8 +3,7 @@ const pool = require('../databases/database');
 
 exports.getAllAnimals = async(req, res) => {
     try {
-        const connexion = await pool.getConnection();
-        const resultat = await connexion.query("CALL GetAllAnimals()");
+        const resultat = await pool.query("CALL GetAllAnimals()");
         res.status(200).json(resultat[0]);
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la récupération des animaux", error });
@@ -13,8 +12,7 @@ exports.getAllAnimals = async(req, res) => {
 exports.addAnimal = async(req, res) => {
     const { owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit } = req.body;
     try {
-        const connexion = await pool.getConnection();
-        await connexion.query("CALL AddAnimal(?, ?, ?, ?, ?, ?, ?, ?, ?)", [owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit]);
+        await pool.query("CALL AddAnimal(?, ?, ?, ?, ?, ?, ?, ?, ?)", [owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit]);
         res.status(201).json({ message: 'Animal ajouté avec succès' });
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de l'ajout de l'animal", error });
@@ -40,8 +38,7 @@ exports.editAnimal = async(req, res) => {
     const animal_id = req.params.id;
     const { owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit } = req.body;
     try {
-        const connexion = await pool.getConnection();
-        await connexion.query("CALL EditAnimal(?,?, ?, ?, ?, ?, ?, ?, ?, ?)", [animal_id, owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit]);
+        await pool.query("CALL EditAnimal(?,?, ?, ?, ?, ?, ?, ?, ?, ?)", [animal_id, owner_id, animal_name, animal_type, race, sex, age, image, is_vaccinated, last_visit]);
         res.status(200).json({ message: 'Animal mis à jour avec succès' });
     } catch (error) {
         res.status(500).json({ message: "Erreur lors de la mise à jour de l'animal", error });
