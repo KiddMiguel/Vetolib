@@ -94,7 +94,6 @@ function EditAnimal({animalId, onUpdate }) {
   }; 
   return (
     <div style={{ maxWidth: 600, margin: "auto" }}>
-      <h2>{animalId ? "Modifier l'Animal" : "Ajouter un Nouvel Animal"}</h2>
       <form onSubmit={handleSubmit}>
         <FormControl fullWidth margin="normal">
           <InputLabel>Propriétaire</InputLabel>

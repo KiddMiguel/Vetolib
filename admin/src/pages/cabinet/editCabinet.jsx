@@ -100,10 +100,8 @@ function EditCabinet({ cabinetId, onUpdate }) {
     <form
       onSubmit={handleSubmit}
       className="container"
-      style={{ height: "75vh" }}
+      style={{ height: "80vh" }}
     >
-                <h1>Ajouter un cabinet</h1>
-
       <TextField
         label="Nom du Cabinet"
         name="cabinet_name"
