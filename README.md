@@ -170,7 +170,7 @@ BEGIN
     SELECT * FROM Cabinet ORDER BY `cabinet`.`cabinet_id` DESC;
 END$$
 
-CREATE PROCEDURE `AddCabinet`(IN _cabinet_name VARCHAR(100), IN _owner_id INT, IN _address VARCHAR(255), IN _city VARCHAR(100), IN _phone_number VARCHAR(20), IN _image VARCHAR(100), IN _is_available BOOLEAN)
+CREATE PROCEDURE `AddCabinet`(IN _cabinet_name VARCHAR(100), IN _owner_id INT, IN _address VARCHAR(255), IN _city VARCHAR(100), IN _phone_number VARCHAR(20), IN _image LONGTEXT(50000), IN _is_available BOOLEAN)
 BEGIN
     INSERT INTO Cabinet (cabinet_name, owner_id, address, city, phone_number, image, is_available) VALUES (_cabinet_name, _owner_id, _address, _city, _phone_number, _image, _is_available);
 END$$
@@ -180,7 +180,7 @@ BEGIN
     SELECT * FROM Cabinet WHERE cabinet_id = _cabinet_id;
 END$$
 
-CREATE PROCEDURE `EditCabinet`(IN _cabinet_id INT, IN _cabinet_name VARCHAR(100), IN _owner_id INT, IN _address VARCHAR(255), IN _city VARCHAR(100), IN _phone_number VARCHAR(20), IN _image VARCHAR(100), IN _is_available BOOLEAN)
+CREATE PROCEDURE `EditCabinet`(IN _cabinet_id INT, IN _cabinet_name VARCHAR(100), IN _owner_id INT, IN _address VARCHAR(255), IN _city VARCHAR(100), IN _phone_number VARCHAR(20), IN _image LONGTEXT(50000), IN _is_available BOOLEAN)
 BEGIN
     UPDATE Cabinet SET cabinet_name = _cabinet_name, owner_id = _owner_id, address = _address, city = _city, phone_number = _phone_number, image = _image, is_available = _is_available WHERE cabinet_id = _cabinet_id;
 END$$
